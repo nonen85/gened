@@ -1,0 +1,1740 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ระบบฝึกทำข้อสอบ 2 ชุด — PDPA & Cybersecurity และความรู้ดิจิทัล/Python</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-fill: #D9E2F3;
+      --brand-fill-soft: #EEF3FB;
+      --brand-border: #B6C7E8;
+      --brand-primary: #1F3B73;
+      --brand-primary-hover: #162B56;
+      --brand-ink-on-fill: #14274E;
+      --bg: #F5F7FB;
+      --surface: #FFFFFF;
+      --border: #DCE3F0;
+      --ink: #182235;
+      --muted: #55637A;
+      --ok-bg: #ECFDF3;
+      --ok-border: #16A34A;
+      --ok-ink: #14532D;
+      --err-bg: #FEF2F2;
+      --err-border: #DC2626;
+      --err-ink: #7F1D1D;
+      --note-bg: #FFFBEB;
+      --note-border: #D97706;
+      --note-ink: #78350F;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 2px 8px rgba(20, 39, 78, 0.06), 0 1px 2px rgba(20, 39, 78, 0.04);
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --font: "Sarabun", "TH Sarabun New", -apple-system, BlinkMacSystemFont, "Segoe UI", Tahoma, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Shell Header */
+    .app-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .header-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: var(--space-4) var(--space-6);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+    }
+
+    .brand-title-group {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--brand-fill);
+      border: 1px solid var(--brand-border);
+      color: var(--brand-ink-on-fill);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .app-title {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--brand-ink-on-fill);
+      line-height: 1.3;
+    }
+
+    .app-subtitle {
+      margin: 0;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    /* Buttons */
+    .btn {
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 9px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.08s ease;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--brand-primary);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: var(--brand-primary);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover {
+      background: var(--brand-primary-hover);
+    }
+
+    .btn-brand-tint {
+      background: var(--brand-fill);
+      color: var(--brand-ink-on-fill);
+      border-color: var(--brand-border);
+    }
+
+    .btn-brand-tint:hover {
+      background: #C8D6F0;
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--ink);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--brand-fill-soft);
+      border-color: var(--brand-border);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    /* Independent Part Switcher */
+    .part-tabs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-3);
+    }
+
+    .part-tab {
+      text-align: left;
+      font-family: var(--font);
+      padding: var(--space-4);
+      border-radius: var(--radius);
+      border: 2px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .part-tab:hover {
+      border-color: var(--brand-border);
+      background: var(--brand-fill-soft);
+    }
+
+    .part-tab:focus-visible {
+      outline: 2px solid var(--brand-primary);
+      outline-offset: 2px;
+    }
+
+    .part-tab.active {
+      background: var(--brand-fill);
+      border-color: var(--brand-primary);
+      box-shadow: var(--shadow);
+    }
+
+    .part-tab-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+    }
+
+    .part-badge {
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 999px;
+      background: var(--brand-fill-soft);
+      color: var(--brand-primary);
+      border: 1px solid var(--brand-border);
+    }
+
+    .part-tab.active .part-badge {
+      background: var(--brand-primary);
+      color: #FFFFFF;
+      border-color: var(--brand-primary);
+    }
+
+    .part-progress-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .part-tab.active .part-progress-text {
+      color: var(--brand-ink-on-fill);
+    }
+
+    .part-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .part-desc {
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+
+    .part-tab.active .part-desc {
+      color: #2A3F66;
+    }
+
+    /* Options Bar */
+    .options-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-4) var(--space-6);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+    }
+
+    .toggles-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-4) var(--space-6);
+    }
+
+    .toggle-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .toggle-input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-track {
+      width: 42px;
+      height: 24px;
+      background: #CBD5E1;
+      border-radius: 999px;
+      position: relative;
+      transition: background-color 0.18s ease;
+      flex-shrink: 0;
+    }
+
+    .toggle-thumb {
+      width: 18px;
+      height: 18px;
+      background: #FFFFFF;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: transform 0.18s ease;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .toggle-input:checked + .toggle-track {
+      background: var(--brand-primary);
+    }
+
+    .toggle-input:checked + .toggle-track .toggle-thumb {
+      transform: translateX(18px);
+    }
+
+    .toggle-input:focus-visible + .toggle-track {
+      outline: 2px solid var(--brand-primary);
+      outline-offset: 2px;
+    }
+
+    /* Question Card */
+    .exam-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .exam-card-header {
+      background: var(--brand-fill);
+      border-bottom: 1px solid var(--brand-border);
+      padding: var(--space-3) var(--space-6);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+    }
+
+    .q-meta-left {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    .q-num-chip {
+      background: var(--brand-primary);
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 3px 12px;
+      border-radius: 999px;
+    }
+
+    .retry-chip {
+      background: var(--note-bg);
+      color: var(--note-ink);
+      border: 1px solid var(--note-border);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 2px 10px;
+      border-radius: 999px;
+    }
+
+    .q-status-right {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--brand-ink-on-fill);
+    }
+
+    .progress-bar-wrap {
+      height: 5px;
+      background: var(--brand-fill-soft);
+      width: 100%;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--brand-primary);
+      transition: width 0.25s ease;
+    }
+
+    .exam-card-body {
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .q-stem {
+      font-size: 19px;
+      font-weight: 600;
+      line-height: 1.65;
+      color: var(--ink);
+      margin: 0;
+      word-break: break-word;
+    }
+
+    .q-code-block {
+      margin-top: var(--space-3);
+      background: #1E293B;
+      color: #F8FAFC;
+      font-family: var(--mono);
+      font-size: 14.5px;
+      line-height: 1.55;
+      padding: var(--space-4);
+      border-radius: var(--radius-sm);
+      overflow-x: auto;
+      white-space: pre;
+      font-weight: 400;
+    }
+
+    .q-image-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: var(--space-4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .q-image-box img {
+      max-width: 100%;
+      max-height: 440px;
+      height: auto;
+      display: block;
+      border-radius: 4px;
+    }
+
+    /* Choices */
+    .choices-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .choice-btn {
+      width: 100%;
+      text-align: left;
+      font-family: var(--font);
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 13px 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      transition: background-color 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease;
+    }
+
+    .choice-btn:hover:not(:disabled) {
+      background: var(--brand-fill-soft);
+      border-color: var(--brand-primary);
+    }
+
+    .choice-btn:focus-visible {
+      outline: 2px solid var(--brand-primary);
+      outline-offset: 2px;
+    }
+
+    .choice-btn:disabled {
+      cursor: default;
+    }
+
+    .choice-letter {
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      background: var(--brand-fill);
+      color: var(--brand-ink-on-fill);
+      font-weight: 700;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .choice-text {
+      flex: 1;
+      word-break: break-word;
+    }
+
+    .choice-tag {
+      font-size: 13px;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 999px;
+      flex-shrink: 0;
+      align-self: center;
+    }
+
+    .choice-btn.is-correct {
+      background: var(--ok-bg);
+      border-color: var(--ok-border);
+      color: var(--ok-ink);
+    }
+
+    .choice-btn.is-correct .choice-letter {
+      background: var(--ok-border);
+      color: #FFFFFF;
+    }
+
+    .choice-btn.is-wrong {
+      background: var(--err-bg);
+      border-color: var(--err-border);
+      color: var(--err-ink);
+    }
+
+    .choice-btn.is-wrong .choice-letter {
+      background: var(--err-border);
+      color: #FFFFFF;
+    }
+
+    .choice-btn.is-dimmed {
+      opacity: 0.68;
+    }
+
+    /* Immediate Reveal Feedback Box */
+    .feedback-panel {
+      border-radius: 10px;
+      padding: var(--space-4) var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .feedback-panel.ok {
+      background: var(--ok-bg);
+      border: 1px solid #86EFAC;
+      color: var(--ok-ink);
+    }
+
+    .feedback-panel.err {
+      background: var(--err-bg);
+      border: 1px solid #FCA5A5;
+      color: var(--err-ink);
+    }
+
+    .feedback-header-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+    }
+
+    .feedback-verdict {
+      font-size: 17.5px;
+      font-weight: 700;
+    }
+
+    .feedback-detail {
+      font-size: 15.5px;
+      margin: 0;
+    }
+
+    .requeue-notice {
+      font-size: 14px;
+      font-weight: 600;
+      background: rgba(255,255,255,0.75);
+      padding: 6px 12px;
+      border-radius: 6px;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .audit-inline-box {
+      background: var(--note-bg);
+      border: 1px solid #FCD34D;
+      color: var(--note-ink);
+      border-radius: 8px;
+      padding: var(--space-3) var(--space-4);
+      font-size: 14.5px;
+      line-height: 1.55;
+    }
+
+    .audit-inline-box strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .card-footer-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--space-3);
+      padding-top: var(--space-2);
+    }
+
+    /* Completion View */
+    .complete-box {
+      padding: var(--space-8) var(--space-6);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .complete-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--brand-fill);
+      color: var(--brand-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .complete-title {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--brand-ink-on-fill);
+    }
+
+    .complete-stats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-4);
+      margin: var(--space-2) 0;
+    }
+
+    .stat-pill {
+      background: var(--brand-fill-soft);
+      border: 1px solid var(--brand-border);
+      border-radius: 10px;
+      padding: 12px 20px;
+      min-width: 150px;
+    }
+
+    .stat-pill-val {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--brand-primary);
+    }
+
+    .stat-pill-lbl {
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+
+    /* Modal for Answer Key Verification Report */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+      z-index: 50;
+    }
+
+    .modal-backdrop[hidden] {
+      display: none;
+    }
+
+    .modal-panel {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      max-width: 860px;
+      width: 100%;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      background: var(--brand-fill);
+      border-bottom: 1px solid var(--brand-border);
+      padding: var(--space-4) var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--brand-ink-on-fill);
+    }
+
+    .modal-body {
+      padding: var(--space-6);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .audit-summary-banner {
+      background: var(--ok-bg);
+      border: 1px solid #86EFAC;
+      color: var(--ok-ink);
+      padding: var(--space-4);
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+    }
+
+    .audit-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    table.audit-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14.5px;
+    }
+
+    table.audit-table th {
+      background: var(--brand-fill);
+      color: var(--brand-ink-on-fill);
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 700;
+      border-bottom: 1px solid var(--brand-border);
+      white-space: nowrap;
+    }
+
+    table.audit-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    table.audit-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    table.audit-table tr:hover td {
+      background: var(--brand-fill-soft);
+    }
+
+    .level-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .level-warn {
+      background: var(--err-bg);
+      color: var(--err-ink);
+      border: 1px solid #FCA5A5;
+    }
+
+    .level-note {
+      background: var(--note-bg);
+      color: var(--note-ink);
+      border: 1px solid #FCD34D;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: var(--space-4);
+      }
+      .header-inner {
+        padding: var(--space-3) var(--space-4);
+      }
+      .exam-card-body {
+        padding: var(--space-4);
+      }
+      .options-card {
+        padding: var(--space-4);
+      }
+      .q-stem {
+        font-size: 17.5px;
+      }
+      .choice-btn {
+        font-size: 16px;
+        padding: 11px 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hidden resolved uploaded images from Exam_Questions.docx -->
+  <div id="embedded-images" hidden>
+  <img id="src-img1" src="q11.png" alt="รูปวงจรลอจิก ข้อ 11">
+  <img id="src-img2" src="q12.png" alt="รูปวงจรลอจิก ข้อ 12">
+  <img id="src-img3" src="q13.png" alt="รูปวงจรและสัญญาณนาฬิกา ข้อ 13">
+  <img id="src-img4" src="q192.png" alt="แผนภาพซอฟต์แวร์ Robot Gardener ข้อ 192">
+</div>
+
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-title-group">
+        <div class="brand-mark" aria-hidden="true">ข้อสอบ</div>
+        <div>
+          <h1 class="app-title">ระบบฝึกทำข้อสอบและเฉลยรายข้อ</h1>
+          <p class="app-subtitle">แยก 2 Part อิสระ • เฉลยทันทีทีละข้อ • ตั้งค่าสุ่มข้อ สลับตัวเลือก และวนถามซ้ำข้อที่ผิด</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="btn btn-brand-tint" id="btn-open-audit">
+          ผลการเช็คความถูกต้องเฉลย
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Two Independent Parts -->
+    <section class="part-tabs" aria-label="เลือกชุดข้อสอบ">
+      <button type="button" class="part-tab active" id="tab-part1" data-part="part1">
+        <div class="part-tab-top">
+          <span class="part-badge">Part 1 • 76 ข้อ</span>
+          <span class="part-progress-text" id="tab-status-part1">ผ่านแล้ว 0 / 76 ข้อ</span>
+        </div>
+        <div class="part-name">ชุดที่ 1: PDPA &amp; Cybersecurity</div>
+        <div class="part-desc">กฎหมายคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 และความมั่นคงปลอดภัยไซเบอร์</div>
+      </button>
+
+      <button type="button" class="part-tab" id="tab-part2" data-part="part2">
+        <div class="part-tab-top">
+          <span class="part-badge">Part 2 • 196 ข้อ</span>
+          <span class="part-progress-text" id="tab-status-part2">ผ่านแล้ว 0 / 196 ข้อ</span>
+        </div>
+        <div class="part-name">ชุดที่ 2: คอมพิวเตอร์ เครือข่าย IoT Design Thinking &amp; Python</div>
+        <div class="part-desc">พื้นฐานระบบดิจิทัล เครือข่ายอินเทอร์เน็ต IoT การสร้าง Prototype และภาษา Python</div>
+      </button>
+    </section>
+
+    <!-- Per-Part Independent Options -->
+    <section class="options-card" aria-label="ตั้งค่าการทำข้อสอบของ Part ปัจจุบัน">
+      <div class="toggles-group">
+        <label class="toggle-label">
+          <input type="checkbox" class="toggle-input" id="opt-shuffle-q">
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          <span>สลับลำดับข้อสอบ</span>
+        </label>
+
+        <label class="toggle-label">
+          <input type="checkbox" class="toggle-input" id="opt-shuffle-c">
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          <span>สลับลำดับตัวเลือก (Choice)</span>
+        </label>
+
+        <label class="toggle-label">
+          <input type="checkbox" class="toggle-input" id="opt-requeue-wrong" checked>
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          <span>ถ้าทำผิด ให้นำข้อนั้นกลับมาสุ่มในคำถามที่เหลือใหม่</span>
+        </label>
+      </div>
+
+      <button type="button" class="btn btn-secondary" id="btn-restart-part">
+        เริ่มทำ Part นี้ใหม่
+      </button>
+    </section>
+
+    <!-- Active Question / Completion Area -->
+    <section class="exam-card" id="exam-stage" aria-live="polite"></section>
+  </main>
+
+  <!-- Modal: Answer Key Verification Report -->
+  <div class="modal-backdrop" id="audit-modal" hidden role="dialog" aria-modal="true" aria-labelledby="audit-modal-title">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h2 class="modal-title" id="audit-modal-title">รายงานการตรวจสอบความถูกต้องของเฉลยทั้ง 2 ชุด (รวม 272 ข้อ)</h2>
+        <button type="button" class="btn btn-secondary" id="btn-close-audit">ปิดหน้าต่าง</button>
+      </div>
+      <div class="modal-body">
+        <div class="audit-summary-banner">
+          <strong>สรุปภาพรวมการตรวจสอบไฟล์ต้นฉบับ:</strong>
+          ตรวจสอบความสอดคล้องระหว่างไฟล์คำถามและไฟล์ตารางเฉลยครบทั้ง <strong>272 ข้อ</strong> (Part 1 จำนวน 76 ข้อ และ Part 2 จำนวน 196 ข้อ) พบว่าตัวอักษรเฉลย (a–e) ตรงกับข้อความตัวเลือกในไฟล์โจทย์ครบ <strong>100% ทุกข้อ</strong> ไม่มีการเลื่อนบรรทัดของเลขข้อ และผลรันโค้ด Python / คำนวณเลขฐานสอง / ลอจิกเกต ถูกต้องทั้งหมด อย่างไรก็ตาม มีข้อสังเกตทางกฎหมายและเทคนิคจำนวน 7 ข้อที่ควรทราบดังตารางด้านล่าง
+        </div>
+
+        <div class="audit-table-wrap">
+          <table class="audit-table">
+            <thead>
+              <tr>
+                <th>ชุด / ข้อที่</th>
+                <th>เฉลยในไฟล์</th>
+                <th>ระดับข้อสังเกต</th>
+                <th>รายละเอียดผลการตรวจสอบทางกฎหมาย / วิชาการ</th>
+              </tr>
+            </thead>
+            <tbody id="audit-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Audit notes verified against Thailand PDPA B.E. 2562, digital logic, networking, and Python 3
+    const AUDIT_NOTES = {
+      "part1-47": {
+        partLabel: "Part 1 ข้อ 47",
+        fileKey: "d (ถูกทุกข้อ)",
+        severity: "warn",
+        severityLabel: "ข้อสังเกตสำคัญทางกฎหมาย",
+        note: "ไฟล์เฉลยระบุ d. ถูกทุกข้อ (รวมกรรมการ ผู้บริหาร และ DPO) แต่ตามมาตรา 81 แห่ง พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 ผู้ที่ต้องร่วมรับโทษทางอาญากับนิติบุคคลคือ 'กรรมการ ผู้จัดการ หรือบุคคลใดซึ่งรับผิดชอบในการดำเนินงานของนิติบุคคลนั้น' ส่วน DPO เป็นผู้ให้คำแนะนำและตรวจสอบอย่างเป็นอิสระตามมาตรา 42 ไม่ใช่ผู้สั่งการดำเนินงาน จึงไม่ต้องร่วมรับผิดตามมาตรา 81 (เว้นแต่ DPO เปิดเผยความลับที่ล่วงรู้จากการปฏิบัติหน้าที่เองตามมาตรา 80 หรือควบตำแหน่งบริหารที่สั่งการกระทำผิด)"
+      },
+      "part2-13": {
+        partLabel: "Part 2 ข้อ 13",
+        fileKey: "c (C))",
+        severity: "warn",
+        severityLabel: "จุดคลาดเคลื่อนในรูปกราฟ",
+        note: "ตัวเลือก C) เป็นคำตอบที่ถูกต้องที่สุดเพราะเป็นกราฟเดียวที่เปลี่ยนสถานะตามขอบขาขึ้นของสัญญาณนาฬิกา (CLK) แต่ในรูปโจทย์มีจุดวาดคลาดเคลื่อนที่ขอบขาขึ้นลูกที่ 3 ของ CLK ซึ่งสัญญาณ B เพิ่งตกลงจาก 1 เป็น 0 พร้อมขอบขาขึ้นพอดี หากยึดเกณฑ์เดียวกับขอบขาขึ้นลูกที่ 1 ('คำนวณจากข้อมูลเข้าก่อนขาขึ้นของสัญญาณนาฬิกา') ค่าก่อนขอบขาขึ้นลูกที่ 3 คือ A=0, B=1 ผลลัพธ์ A OR B จึงควรยังเป็น 1 ต่อเนื่อง ไม่ตกลงเป็น 0 ทันทีที่ขอบลูกที่ 3"
+      },
+      "part1-32": {
+        partLabel: "Part 1 ข้อ 32",
+        fileKey: "a (Network Layer)",
+        severity: "note",
+        severityLabel: "หมายเหตุคำศัพท์",
+        note: "เฉลย a. Network Layer ถูกต้องในตัวเลือกที่มีอยู่ (ตามโมเดล TCP/IP แบบประยุกต์ 5 ชั้น) ทั้งนี้ในมาตรฐาน TCP/IP ดั้งเดิมแบบ 4 ชั้น เลเยอร์ที่ทำหน้าที่ Addressing และ Routing จะเรียกชื่ออย่างเป็นทางการว่า Internet Layer"
+      },
+      "part1-59": {
+        partLabel: "Part 1 ข้อ 59",
+        fileKey: "c (กิจกรรมหลักประมวลผลข้อมูลอ่อนไหวฯ)",
+        severity: "note",
+        severityLabel: "หมายเหตุมาตรา 41",
+        note: "เฉลย c ถูกต้องที่สุดในบรรดาตัวเลือกทั้งหมด ทั้งนี้ตามมาตรา 41 วรรคหนึ่ง (1) หน่วยงานของรัฐตามที่คณะกรรมการคุ้มครองข้อมูลส่วนบุคคลประกาศกำหนด ก็มีหน้าที่ต้องจัดให้มี DPO ด้วยเช่นกัน แม้กิจกรรมหลักจะไม่ได้ประมวลผลข้อมูลอ่อนไหวตามมาตรา 26"
+      },
+      "part2-11": {
+        partLabel: "Part 2 ข้อ 11",
+        fileKey: "b (1)",
+        severity: "note",
+        severityLabel: "หมายเหตุรูปภาพต้นฉบับ",
+        note: "เฉลย b. 1 ถูกต้อง (วงจร XOR Gate: เมื่อ A = 0 และ B = 1 จะได้ 0 XOR 1 = 1) โดยในไฟล์ข้อสอบต้นฉบับขอบซ้ายของภาพถูกตัดทำให้มองไม่เห็นตัวอักษร A ที่ขาสัญญาณด้านบน"
+      },
+      "part2-104": {
+        partLabel: "Part 2 ข้อ 104",
+        fileKey: "b (current directory)",
+        severity: "note",
+        severityLabel: "หมายเหตุเชิงลึก Python",
+        note: "เฉลย b. current directory ถูกต้องสำหรับลำดับไดเรกทอรีแรกสุดใน sys.path บนระบบไฟล์ (ทั้งนี้ในระดับตัวแปลภาษา Python จะตรวจสอบชื่อใน built-in modules ก่อนค้นหาไฟล์ใน sys.path)"
+      },
+      "part2-135": {
+        partLabel: "Part 2 ข้อ 135",
+        fileKey: "b (เรียกใช้ built-in function ได้เลย)",
+        severity: "note",
+        severityLabel: "หมายเหตุเนื้อหาพื้นฐาน",
+        note: "เฉลย b ถูกต้องตามขอบเขตเนื้อหาวิชาพื้นฐาน (ตัวเลือก a ผิดชัดเจนจึงตัด d. ถูกทุกข้อ ออกได้ หมายเหตุเพิ่มเติม: ในเชิงลึกของ Python ฟังก์ชันถือเป็นออบเจกต์ชนิด <class 'function'> ด้วย)"
+      }
+    };
+
+    // Part 1: 76 Questions from PDPA_Exam_Questions.docx & PDPA_Answer_Key.docx
+    const PART1_QUESTIONS = [
+      {n:1,q:"การทำ Social Engineer กับเป้าหมาย จำเป็นจะต้องเข้าถึงตัวเป้าหมายและมีปฏิสัมพันธ์กับเป้าหมายเสมอใช่หรือไม่",c:[["a","ใช่"],["b","ไม่ใช่"]],a:"b"},
+      {n:2,q:"ข้อใดไม่ใช่การตั้งรหัสผ่านที่ดี",c:[["a","มีตัวอักขระพิเศษ ผสม ตัวเลข และ ตัวอักษร"],["b","ตั้งให้สั้น ๆ เพื่อจะได้จำได้ง่าย"],["c","ตั้งให้ยาว"],["d","ใช้ Password Manager ช่วยสร้างรหัสผ่าน"]],a:"b"},
+      {n:3,q:"Password ข้อใดต่อไปนี้ปลอดภัยที่สุด",c:[["a","password123"],["b","ilovepizza"],["c","P@ssw0rd!"],["d","abcdef"]],a:"c"},
+      {n:4,q:"ข้อใดคือ Malware",c:[["a","Software A จะทำงานได้ก็ต่อเมื่อใช้สิทธิ์ผู้ดูแลระบบเท่านั้น"],["b","Software B มี feature ที่จะ update ตัวมันเองอย่างเป็นประจำ"],["c","Software C คือ Opensource Software"],["d","Software D แอบเก็บข้อมูลผู้ใช้งานไปขาย"]],a:"d"},
+      {n:5,q:"ใครคำนึงถึงเรื่อง privacy ได้ดีที่สุด",c:[["a","คุณ Alice จด Password ที่ใช้ประจำ เอาไว้บนสมุดโน๊ต และวางทิ้งไว้บนโต๊ะทำงาน"],["b","คุณ Bob เอาเทปกาวปิดกล้อง Laptop ไว้เสมอ ป้องกันการแอบถ่ายโดยมิได้ตั้งใจ"],["c","คุณ Cat ขยำสำเนาบัตรประชาชนที่ไม่ได้ใช้แล้ว ทิ้งลงถังขยะ"],["d","คุณ Daisy ส่งไฟล์เอกสารสำคัญของบริษัท ผ่านโปรแกรม Line และ Messenger โดยมิได้เข้ารหัสก่อน"],["e","คุณ Ellen เก็บ ไฟล์เอกสารสำคัญ และข้อมูล Password ของบริษัท เอาไว้ใน Email ส่วนตัว"]],a:"b"},
+      {n:6,q:"ช่องทางใดที่น่าจะรอดพ้นจากการถูกติดตามมากที่สุด",c:[["a","ใช้ Browser ท่องเว็บไซต์ผ่าน HTTPS"],["b","ใช้บริการ online shopping เลือกซื้อสินค้าในช่วง 12.12"],["c","ใช้โปรแกรม chat โดยเลือกการทำงานเป็นแบบเข้ารหัสตั้งแต่ต้นทางถึงปลายทาง (End-to-End Encryption)"],["d","เล่น quiz บน facebook แข่งกับเพื่อน"]],a:"c"},
+      {n:7,q:"วิธีการใดต่อไปนี้เป็นการชาร์จโทรศัพท์มือถือที่ปลอดภัยที่สุด ไม่เสี่ยงโดนขโมยข้อมูล",c:[["a","ใช้สาย USB ของตัวเองเสียบกับ USB charger สาธารณะ"],["b","ใช้ adaptor ชาร์จของคนอื่นเสียบกับปลั๊กไฟสาธารณะ"],["c","ใช้สาย USB ของตัวเองเสียบกับ computer ของคนอื่น"],["d","ใช้ adaptor ชาร์จของตัวเองเสียบกับปลั๊กไฟสาธารณะ"]],a:"d"},
+      {n:8,q:"ข้อใดต่อไปนี้ ไม่ใช่ความเสี่ยงของการใช้งาน face recognition เพื่อยืนยันตัวตนบนมือถือ",c:[["a","คนที่มีหน้าตาคล้ายกันมากหรือเหมือนกันมีโอกาสที่จะปลดล็อคมือถือเครื่องเดียวกันได้"],["b","สามารถถูกบังคับให้ปลดล็อคมือถือได้ง่าย"],["c","ใช้งาน passcode ที่สามารถคาดเดาได้ง่าย"],["d","ไม่มีข้อถูก"]],a:"c"},
+      {n:9,q:"ในกรณีที่ซื้อโทรศัพท์มือถือมือสองมาใช้งาน ในแง่ของความมั่นคงปลอดภัย เพราะเหตุใด จึงต้องลบข้อมูลและ reset การตั้งค่าเก่าทั้งหมด ทิ้งไป (factory reset) ก่อนที่จะนำมาใช้งาน",c:[["a","เพื่อให้มีที่ว่างใน Storage มากขึ้น"],["b","ลดความเสี่ยงในการถูกขโมยข้อมูลจากการที่ผู้ใช้คนก่อนติดตั้ง malware มาในโทรศัพท์มือถือ เพื่อขโมยข้อมูลของเรา"],["c","ยืดอายุการใช้งานของโทรศัพท์มือถือ"],["d","ป้องกันการโทรผิดจากเจ้าหนี้ของผู้ใช้คนก่อน"]],a:"b"},
+      {n:10,q:"การใช้งาน public Wi-Fi ในข้อใดต่อไปนี้ มีความเสี่ยงที่จะถูกขโมยข้อมูลน้อยที่สุด",c:[["a","กรอก username และ password ของ email ของตนเอง เพื่อ login เข้าใช้งาน public Wi-Fi"],["b","เมื่อมีแจ้งเตือนจากหน้า login ของ public Wi-Fi ว่าให้ติดตั้งโปรแกรมบางโปรแกรมก่อนจึงจะสามารถใช้งาน internet ได้อย่างปลอดภัย ให้รีบทำการติดตั้งทันที"],["c","ใช้งาน HTTPS หรือ VPN เสมอขณะที่กำลังเชื่อมต่อ public Wi-Fi"],["d","กรอกเลขบัตรประจำตัวประชาชนของตนเองลงไปในหน้า login ของ public Wi-Fi เพื่อให้ใช้งาน Internet ได้"]],a:"c"},
+      {n:11,q:"การใช้งานเครื่องคอมพิวเตอร์สาธารณะในข้อใดต่อไปนี้มีความเสี่ยงที่จะถูกขโมยข้อมูลน้อยที่สุด",c:[["a","ใช้เครื่องคอมพิวเตอร์สาธารณะในการ login เข้าสู่ระบบ email"],["b","ใช้เครื่องคอมพิวเตอร์สาธารณะในการค้นหาข้อมูลทั่วไป ไม่ได้มีการใช้งาน website ที่ต้องป้อนข้อมูลส่วนตัวหรือข้อมูลที่เป็นความลับ เช่น username และ password"],["c","เชื่อมต่อมือถือเข้ากับเครื่องคอมพิวเตอร์สาธารณะเพื่อถ่ายโอนข้อมูล"],["d","ใช้เครื่องคอมพิวเตอร์สาธารณะในการ login เข้าสู่ระบบ social media"]],a:"b"},
+      {n:12,q:"เครื่องของใครน่าจะถูก Hack",c:[["a","เครื่องของ Johny ใช้ Microsoft Window บ่อยครั้งมีข้อความแสดงให้ทำการ activate ตัว MS Window"],["b","เครื่องของ Bobby ใช้ Mac OS และ update สม่ำเสมอ"],["c","เครื่องของ Nanny มี folder ที่เต็มไปด้วย software เถื่อน"],["d","เครื่องของ Anthony ติดตั้ง Antivirus"]],a:"c"},
+      {n:13,q:"ข้อใดคือวัตถุประสงค์ของการใช้ VPN (Virtual Private Network)",c:[["a","ป้องกันการรั่วไหลของข้อมูลไปสู่เครือข่ายสาธารณะ"],["b","เพิ่มความเร็ว Internet"],["c","Block การเข้าถึงเว็บไซต์ที่ไม่เหมาะสม"],["d","หลบเลี่ยง Firewalls"]],a:"a"},
+      {n:14,q:"ข้อใดไม่ใช่ประเภทของการโจมตีแบบ Social Engineering",c:[["a","Phishing"],["b","Shoulder surfing"],["c","Denial of Service (DoS)"],["d","Pretexting"]],a:"c"},
+      {n:15,q:"ข้อใดคือจุดประสงค์ของการ Encrypt ข้อมูล",c:[["a","ทำให้ข้อมูลเข้าถึงง่ายมากขึ้น"],["b","เพื่อซ่อนข้อมูลจาก Authorized users"],["c","เพื่อปกป้องข้อมูลจากการเข้าถึงที่ไม่ได้รับการยืนยัน"],["d","เพื่อเพิ่มความเร็วในการส่งต่อข้อมูล"]],a:"c"},
+      {n:16,q:"คำกล่าวใดดังต่อไปนี้ไม่ถูกต้อง",c:[["a","เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลมีหน้าที่รักษาความลับของข้อมูลส่วนบุคคลที่ตนล่วงรู้จากการปฏิบัติหน้าที่"],["b","การตรวจสอบการดำเนินงานของผู้ควบคุมข้อมูลส่วนบุคคลหรือผู้ประมวลผลข้อมูลส่วนบุคคลเกี่ยวกับการเก็บรวบรวม ใช้ หรือเปิดเผยข้อมูลส่วนบุคคลเพื่อให้เป็นไปตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ.2562 ไม่ใช่หน้าที่ของเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลตามกฎหมาย"],["c","การประสานงานและให้ความร่วมมือกับสำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคลในกรณีที่มีปัญหาเกี่ยวกับการเก็บรวบรวม ใช้ หรือเปิดเผยข้อมูลส่วนบุคคลของผู้ควบคุมข้อมูลส่วนบุคคล เป็นหน้าที่ของเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลตามมาตรา 42 แห่งพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ.2562"],["d","ผู้ควบคุมข้อมูลส่วนบุคคลหรือผู้ประมวลผลข้อมูลส่วนบุคคลที่เป็นหน่วยงานของรัฐตามที่คณะกรรมการประกาศกำหนด ต้องจัดให้มีเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคล"]],a:"b"},
+      {n:17,q:"เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลควรมีความรู้ด้านใดบ้าง จึงจะสามารถปฏิบัติหน้าที่ได้อย่างมีประสิทธิภาพต่อผู้ควบคุมข้อมูลส่วนบุคคลหรือผู้ประมวลผลข้อมูลส่วนบุคคล",c:[["a","ความรู้ด้านกฎหมายคุ้มครองข้อมูลส่วนบุคคล"],["b","ความรู้ด้านธุรกิจของผู้ควบคุมข้อมูลส่วนบุคคลหรือผู้ประมวลผลข้อมูลส่วนบุคคล"],["c","ความรู้ด้านกฎเกณฑ์อื่นๆ ที่เกี่ยวข้อง เช่น ความรู้ความปลอดภัยไซเบอร์ ความรู้ธรรมาภิบาลข้อมูล เป็นต้น"],["d","ถูกทุกข้อ"]],a:"d"},
+      {n:18,q:"เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลสามารถให้คำแนะนำแก่ผู้ควบคุมข้อมูลส่วนบุคคลหรือผู้ประมวลผลข้อมูลส่วนบุคคลในรูปแบบใดได้บ้าง",c:[["a","สามารถทำได้ในรูปแบบการให้ความเห็นเป็นลายลักษณ์อักษรเท่านั้น เนื่องจากจะได้ใช้เป็นหลักฐานในกรณีมีข้อโต้แย้ง"],["b","สามารถทำได้ทุกรูปแบบ ทั้งในเรื่องการตอบข้อหารือ การให้ความเห็นในที่ประชุม การให้ความเห็นในรายงาน การให้ข้อแนะนำต่างๆ เป็นต้น"],["c","สามารถทำได้ในการให้ความเห็นในที่ประชุมเท่านั้น เนื่องจากข้อเท็จจริงที่นำมาสู่การออกความเห็นอาจไม่มีความชัดเจน จึงต้องมีการประชุมหารือและให้ความเห็นในที่ประชุมเพียงอย่างเดียวเท่านั้น"],["d","ไม่สามารถให้ความเห็นใดใดได้ หากผู้ควบคุมข้อมูลส่วนบุคคลหรือผู้ประมวลผลข้อมูลส่วนบุคคลต้องการความเห็น ต้องสอบถามไปยังสำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล"]],a:"b"},
+      {n:19,q:"จากหน้าที่ของเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคล ตามมาตรา 42 แห่งพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ.2562 หากลูกจ้างของผู้ควบคุมข้อมูลส่วนบุคคลมีการร้องขอคำแนะนำจากเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลของตนเอง เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลของผู้ควบคุมข้อมูลส่วนบุคคลจะสามารถให้คำแนะนำได้หรือไม่",c:[["a","สามารถให้คำแนะนำได้ เนื่องจากเป็นสิ่งที่กฎหมายกำหนดไว้ให้เป็นหน้าที่ของเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคล"],["b","สามารถให้คำแนะนำได้ เนื่องจากเป็นการแสดงองค์ความรู้ของเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลของผู้ควบคุมข้อมูลส่วนบุคคลว่า เก่งจริง"],["c","ไม่สามารถให้คำแนะนำได้ เนื่องจากไม่มีกฎหมายกำหนดให้ต้องให้คำแนะนำกับลูกจ้างของผู้ควบคุมข้อมูลส่วนบุคคล"],["d","ไม่สามารถให้คำแนะนำได้ เนื่องจากเป็นหน้าที่ของสำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคลในการตอบปัญหาต่างๆ ในประเทศไทยที่เกิดขึ้น"]],a:"a"},
+      {n:20,q:"คำกล่าวที่ว่า “ผู้ควบคุมข้อมูลส่วนบุคคลหรือผู้ประมวลผลข้อมูลส่วนบุคคลจะให้เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลออกจากงานหรือเลิกสัญญาการจ้างด้วยเหตุที่เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลปฏิบัติหน้าที่ตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ.2562 ไม่ได้” หมายความว่าอย่างไร",c:[["a","ต้องการให้ผู้ควบคุมข้อมูลส่วนบุคคลหรือผู้ประมวลผลข้อมูลส่วนบุคคล ทราบว่า การจัดให้มีเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลเป็นภาระขององค์กร เพราะไม่สามารถให้ออกจากงานหรือเลิกจ้างได้"],["b","ต้องการให้ทราบว่า เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลมีความเป็นอิสระและสามารถปฏิบัติหน้าที่ตามกฎหมายได้อย่างเต็มที่ ผู้ควบคุมข้อมูลส่วนบุคคลหรือผู้ประมวลผลข้อมูลส่วนบุคคลไม่สามารถกลั่นแกล้งได้หากเป็นการปฏิบัติหน้าที่โดยชอบด้วยกฎหมายของเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคล"],["c","ต้องการให้ทราบว่า เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลมีอิทธิพลเหนือทุกอย่างในองค์กร ไม่สามารถให้ใครแตะต้องได้"],["d","ต้องการให้ผู้ควบคุมข้อมูลส่วนบุคคลหรือผู้ประมวลผลข้อมูลส่วนบุคคล ทราบว่า ไม่ควรแต่งตั้งเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคล"]],a:"b"},
+      {n:21,q:"เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลสามารถปฏิบัติหน้าที่หรือมีภารกิจอื่นๆ นอกเหนือจากหน้าที่ของเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลได้หรือไม่",c:[["a","ได้ โดยผู้ควบคุมข้อมูลส่วนบุคคลหรือผู้ประมวลผลข้อมูลส่วนบุคคลต้องรับรองกับสำนักงานว่า หน้าที่หรือภารกิจอื่นนั้น ไม่ขัดหรือแย้งต่อการปฏิบัติหน้าที่ตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ.2562"],["b","ได้ โดยผู้ควบคุมข้อมูลส่วนบุคคลหรือผู้ประมวลผลข้อมูลส่วนบุคคลจะให้ปฏิบัติหน้าที่อะไรก็ได้ เพียงจ่ายค่าตอบแทนให้แก่เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลเพิ่มเติมเท่านั้น"],["c","ไม่ได้ เพราะเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลมีงานหนักอยู่แล้ว จึงไม่ควรมอบหมายงานในหน้าที่อื่นๆ ให้รับผิดชอบอีก"],["d","ไม่ได้ เนื่องจากตามหลักสิทธิมนุษยชนระหว่างประเทศ เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลควรจะมีหน้าที่ให้ข้อแนะนำเพียงอย่างเดียว ไม่ควรต้องปฏิบัติหน้าที่อื่นๆ อีก"]],a:"a"},
+      {n:22,q:"ในกรณีที่เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลเกิดปัญหาในการปฏิบัติหน้าที่ เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลจะสามารถรายงานไปยังบุคคลใดของผู้ควบคุมข้อมูลส่วนบุคคลหรือผู้ประมวลผลข้อมูลส่วนบุคคล",c:[["a","สามารถรายงานไปยังผู้บังคับบัญชาลำดับถัดไป"],["b","สามารถรายงานตรงไปยังผู้บริหารสูงสุดของผู้ควบคุมข้อมูลส่วนบุคคลหรือผู้ประมวลผลข้อมูลส่วนบุคคล"],["c","สามารถรายงานตรงไปยังสำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล"],["d","สามารถไปลงบันทึกประจำวันที่สถานีตำรวจ"]],a:"b"},
+      {n:23,q:"เมื่อเกิดเหตุละเมิดข้อมูลส่วนบุคคลที่ผู้ควบคุมข้อมูลส่วนบุคคลเก็บรักษาไว้ เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลควรดำเนินการดังต่อไปนี้",c:[["a","ไม่ต้องดำเนินการอย่างไร เนื่องจากเป็นหน้าที่ของพนักงานสอบสวน"],["b","ไม่ต้องดำเนินการอย่างไร เนื่องจากเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลไม่มีงบประมาณที่จะดำเนินการอะไรได้"],["c","ดำเนินการให้คำแนะนำ พร้อมประมวลผลเหตุการณ์ที่เกิดขึ้น ประเมินความเสี่ยงและผลกระทบจากการที่ข้อมูลส่วนบุคคลถูกละเมิด หากตรงตามหลักเกณฑ์ที่ต้องแจ้งสำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลสามารถดำเนินการแจ้งสำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล"],["d","ดำเนินการประเมินสถานการณ์ที่เกิดขึ้นว่า เป็นความผิดของผู้ใด"]],a:"c"},
+      {n:24,q:"ผู้ควบคุมข้อมูลส่วนบุคคลและผู้ประมวลผลข้อมูลส่วนบุคคลต้องแจ้งข้อมูลเกี่ยวกับเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคล สถานที่ติดต่อและวิธีการติดต่อให้เจ้าของข้อมูลส่วนบุคคลและสำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคลทราบหรือไม่",c:[["a","ไม่ต้องแจ้ง เนื่องจากเป็นเรื่องของผู้ควบคุมข้อมูลส่วนบุคคลและผู้ประมวลผลข้อมูลส่วนบุคคล"],["b","ไม่ต้องแจ้ง เนื่องจากหากเจ้าของข้อมูลส่วนบุคคลทราบจะเป็นช่องทางในการขอใช้สิทธิ"],["c","ต้องแจ้ง เนื่องจากเจ้าของข้อมูลส่วนบุคคลจะสามารถติดต่อเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลเพื่อจะขอใช้สิทธิต่างๆ ได้"],["d","แจ้งหรือไม่แจ้งก็ได้ เนื่องจากเป็นสิทธิของผู้ควบคุมข้อมูลส่วนบุคคลและผู้ประมวลผลข้อมูลส่วนบุคคล"]],a:"c"},
+      {n:25,q:"คำกล่าวใดต่อไปนี้ถูกต้อง",c:[["a","เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลอาจเป็นพนักงานของผู้ควบคุมข้อมูลส่วนบุคคลหรือเป็นผู้รับจ้างให้บริการตามสัญญากับผู้ควบคุมข้อมูลส่วนบุคคลก็ได้"],["b","เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลต้องเป็นพนักงานของผู้ควบคุมข้อมูลส่วนบุคคลเท่านั้น"],["c","เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลต้องเป็นพนักงานของผู้ประมวลผลข้อมูลส่วนบุคคลและให้มาปฏิบัติหน้าที่เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลให้กับผู้ควบคุมข้อมูลส่วนบุคคล"],["d","กฎหมายบังคับให้ผู้ควบคุมข้อมูลส่วนบุคคลต้องจ้างผู้รับจ้างมาปฏิบัติหน้าที่เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลไม่สามารถจ้างมาเป็นพนักงานได้"]],a:"a"},
+      {n:26,q:"หลักการสำคัญที่สุดของ Operational security/physical security คืออะไร?",c:[["a","รักษาความลับ"],["b","รักษาความถูกต้อง"],["c","รักษาความพร้อมใช้งาน"],["d","ป้องกันภัยคุกคามทางกายภาพ"]],a:"d"},
+      {n:27,q:"แนวปฏิบัติใดไม่เกี่ยวข้องกับ Operational security/physical security?",c:[["a","ควบคุมการเข้าถึงพื้นที่เก็บข้อมูล"],["b","เข้ารหัสข้อมูล"],["c","สำรองข้อมูล"],["d","ตรวจสอบการเข้าถึงข้อมูล"]],a:"b"},
+      {n:28,q:"ปัญหาที่พบบ่อยที่สุดเกี่ยวกับ Operational security/physical security คืออะไร?",c:[["a","การขาดความตระหนักรู้"],["b","การฝึกอบรมไม่เพียงพอ"],["c","ระบบความปลอดภัยไม่เพียงพอ"],["d","การขาดการตรวจสอบ"]],a:"a"},
+      {n:29,q:"แนวทางแก้ไขที่ดีที่สุดสำหรับปัญหาการขาดความตระหนักรู้คืออะไร?",c:[["a","ให้ความรู้แก่พนักงาน"],["b","ฝึกอบรมพนักงาน"],["c","ติดตั้งระบบความปลอดภัยเพิ่มเติม"],["d","ตรวจสอบระบบความปลอดภัยอย่างสม่ำเสมอ"]],a:"a"},
+      {n:30,q:"ตัวอย่างมาตรการควบคุมการเข้าถึงพื้นที่เก็บข้อมูลที่ดีที่สุดคืออะไร?",c:[["a","ติดตั้งระบบควบคุมการเข้าออก"],["b","กำหนดสิทธิ์การเข้าถึงข้อมูล"],["c","เก็บบันทึกการเข้าออก"],["d","ตรวจสอบผู้เข้าออก"]],a:"a"},
+      {n:31,q:"ตัวอย่างมาตรการป้องกันภัยคุกคามทางกายภาพที่ดีที่สุดคืออะไร?",c:[["a","ติดตั้งกล้องวงจรปิด"],["b","กำหนดนโยบายความปลอดภัยข้อมูล"],["c","ตรวจสอบระบบความปลอดภัยอย่างสม่ำเสมอ"],["d","ทั้งหมด"]],a:"d"},
+      {n:32,q:"ใน TCP/IP Model นั้น Layer ใดมีหน้าที่สำหรับการทำ Addressing, Routing, และ Fragmentation",c:[["a","Network Layer"],["b","Transport Layer"],["c","Data Link Layer"],["d","Application Layer"]],a:"a"},
+      {n:33,q:"ใน OSI Model นั้น Layer ใดมีหน้าที่สำหรับการแปลง Data Packages จาก Network Layer ให้พร้อมสำหรับการส่งต่อข้ามตัวกลาง Physical",c:[["a","Network Layer"],["b","Transport Layer"],["c","Data Link Layer"],["d","Application Layer"]],a:"c"},
+      {n:34,q:"ใน OSI Model นั้น Layer ใดมีหน้าที่สำหรับการสื่อสารแบบ end-to-end ระหว่างแอปพลิเคชัน รวมไปถึงการกำหนด protocols สำหรับการส่งไฟล์และอีเมล",c:[["a","Network Layer"],["b","Transport Layer"],["c","Data Link Layer"],["d","Application Layer"]],a:"d"},
+      {n:35,q:"Protocol ไหน ที่ใช้ใน Application Layer (ของ OSI Model) และใช้ในการแปลงชื่อ Domain เป็น IP Address",c:[["a","DHCP (Dynamic Host Configuration Protocol)"],["b","DNS (Domain Name System)"],["c","FTP (File Transfer Protocol)"],["d","HTTP (Hypertext Transfer Protocol)"]],a:"b"},
+      {n:36,q:"ข้อใดคือจุดประสงค์หลักของการทำ cryptography",c:[["a","Data compression"],["b","Data encryption"],["c","Data authentication"],["d","Data routing"]],a:"b"},
+      {n:37,q:"Encryption ประเภทใดที่ใช้ key เดียวกันทั้งการ encryption และ decryption",c:[["a","Symmetric encryption"],["b","Asymmetric encryption"],["c","Hybrid encryption"],["d","One-time pad encryption"]],a:"a"},
+      {n:38,q:"Encryption ประเภทใดที่ใช้ key ต่างกันทั้งระหว่างการ encryption และ decryption",c:[["a","Symmetric encryption"],["b","Asymmetric encryption"],["c","Hybrid encryption"],["d","One-time pad encryption"]],a:"b"},
+      {n:39,q:"คุณสมบัติใดของ key ที่ใช้เป็นตัวจำแนกความแตกต่างระหว่าง Asymmetric encryption และ Symmetric encryption",c:[["a","การใช้ Multiple keys"],["b","การใช้ Single keys"],["c","การใช้ Hashing algorithms"],["d","การใช้ Digital signatures"]],a:"a"},
+      {n:40,q:"Encryption ประเภทใดที่ใช้ข้อได้เปรียบจากทั้ง Asymmetric encryption และ Symmetric encryption เพื่อเพิ่มความปลอดภัย",c:[["a","Symmetric encryption"],["b","Asymmetric encryption"],["c","Hybrid encryption"],["d","One-time pad encryption"]],a:"c"},
+      {n:41,q:"ข้อใดคือจุดประสงค์หลักของการใช้ hash function ใน cryptography",c:[["a","Encryption"],["b","Decryption"],["c","Data compression"],["d","Data integrity verification"]],a:"d"},
+      {n:42,q:"ข้อใดคือข้อเสียเปรียบที่เป็นไปได้ของ Symmetric encryption เมื่อเทียบกับ Asymmetric encryption",c:[["a","ทำการ Encryption ได้ช้ากว่า"],["b","จำเป็นต้องใช้ key จำนวนมากกว่า"],["c","ความท้าทายในการกระจาย key"],["d","โอกาสเกิดช่องโหว่ และโดน brute force attacks"]],a:"c"},
+      {n:43,q:"ข้อใดคือคุณสมบัติของ strong cryptographic hash function",c:[["a","สร้าง output ที่คล้ายกันสำหรับ inputs ที่คล้ายกัน"],["b","เมื่ออ่าน output แล้ว สามารถทำให้กลับไปหา input ได้"],["c","สร้าง output ที่แตกต่างกันและเฉพาะเจาะจงสำหรับแต่ละ input"],["d","ง่ายต่อการเดา output โดยไม่จำเป็นต้องรู้ input"]],a:"c"},
+      {n:44,q:"ข้อใดคือวัตถุประสงค์ของการทำ Penetration Test",c:[["a","เพื่อเพิ่มความปลอดภัยให้เครือข่าย"],["b","ชี้ให้เห็นถึงช่องโหว่ด้านความปลอดภัยเครือข่าย"],["c","เพิกเฉยความเสี่ยงด้านความปลอดภัยที่มีโอกาสเกิดขึ้น"],["d","ลดความเร็วของ Network Performance"]],a:"b"},
+      {n:45,q:"ข้อใดคือขั้นตอนสำคัญในการทำ Risk Management",c:[["a","เพิกเฉยต่อความเสี่ยง"],["b","ย้ายความเสี่ยงทั้งหมดไปให้กับ Third Party"],["c","ยอมรับความเสี่ยงทั้งหมด โดยไม่หาทางป้องกัน"],["d","หาทางบรรเทาความเสี่ยงที่อาจเกิดขึ้น และปรับให้อยู่ในระดับที่ยอมรับได้"]],a:"d"},
+      {n:46,q:"อะไรคือองค์ประกอบพื้นฐานของเครือข่ายไร้สาย",c:[["a","Switches และ routers"],["b","Access points และ clients"],["c","Firewalls และ intrusion prevention systems"],["d","Ethernet cables และ fiber optics"]],a:"b"},
+      {n:47,q:"ใครมีความรับผิดทางอาญา หากเป็นเหตุทำให้หน่วยงานกระทำความผิดตามกฎหมาย",c:[["a","กรรมการ"],["b","ผู้บริหาร"],["c","เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคล"],["d","ถูกทุกข้อ"]],a:"d"},
+      {n:48,q:"พนักงานหรือลูกจ้างองค์กรจะถูกโทษปรับทางปกครองภายใต้พระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคลฯ ได้หรือไม่",c:[["a","ได้ เพราะเป็นส่วนหนึ่งของผู้ควบคุมข้อมูลหรือผู้ประมวลผลข้อมูล"],["b","ได้ เพราะเป็นลูกจ้างที่มีหน้าที่ตามสัญญาจ้างแรงงานกับผู้ควบคุมข้อมูลหรือผู้ประมวลผลข้อมูล"],["c","ไม่ได้ เพราะไม่ได้มีฐานะเป็นผู้ควบคุมข้อมูลหรือผู้ประมวลผลข้อมูล"],["d","ไม่ได้ เพราะกฎหมายกำหนดความรับผิดพิเศษของพนักงานขององค์กรไว้แล้ว"]],a:"c"},
+      {n:49,q:"ข้อใดไม่ใช่ข้อยกเว้นตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคลฯ",c:[["a","บันทึกส่วนบุคคล"],["b","กล้องวงจรปิดในบ้าน"],["c","การจัดการเรียนการสอน"],["d","งานศิลปกรรม"]],a:"c"},
+      {n:50,q:"ข้อใดไม่ใช่ข้อมูลส่วนบุคคล",c:[["a","ชื่อที่อยู่"],["b","ข้อมูลทางการเงิน"],["c","ข้อมูลสุขภาพ"],["d","ข้อมูลบริษัท"]],a:"d"},
+      {n:51,q:"ฐานความยินยอมนั้นเป็นฐานที่ดีกว่าฐานอื่น และควรพิจารณาเป็นอย่างแรกใช่หรือไม่?",c:[["a","ใช่"],["b","ไม่ใช่"]],a:"b"},
+      {n:52,q:"หากไม่เข้าข้อยกเว้นในมาตรา 4 ของ พรบ. คุ้มครองข้อมูลส่วนบุคคลแล้ว เป็นไปได้หรือไม่ที่จะมีการประมวลผลข้อมูลส่วนบุคคลโดยไม่พิจารณาฐานในการประมวลผล?",c:[["a","เป็นไปได้"],["b","เป็นไปไม่ได้"]],a:"b"},
+      {n:53,q:"หากการส่งต่อข้อมูลไปยังหน่วยงานของรัฐนั้นมีกำหนดไว้ในกฎหมายอยู่แล้ว ฐานในการประมวลผลควรเป็นฐานใด",c:[["a","ความยินยอม ตามมาตรา 24"],["b","การปฏิบัติตามกฎหมาย ตามมาตรา 24 (6)"]],a:"b"},
+      {n:54,q:"การที่นายจ้างจำเป็นต้องเก็บข้อมูลเกี่ยวกับการปฏิบัติงานของลูกจ้างตามสัญญาจ้าง แต่ลูกจ้างปฏิเสธไม่ให้ความยินยอมในกรณีดังกล่าว เช่นนี้นายจ้างจะสามารถเก็บข้อมูลดังกล่าวได้หรือไม่",c:[["a","ไม่ได้ เพราะไม่ได้รับความยินยอม"],["b","ได้ เพราะเป็นการประมวลผลด้วยฐานสัญญา ตามมาตรา 24 (3)"]],a:"b"},
+      {n:55,q:"หน่วยงานรัฐเป็นผู้ควบคุมข้อมูลส่วนบุคคลตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 ได้หรือไม่",c:[["a","ไม่เป็น เนื่องจากบริษัทจำกัดเท่านั้นที่เป็นผู้ควบคุมข้อมูลส่วนบุคคลตามกฎหมายได้"],["b","ไม่เป็น เนื่องจากหน่วยงานรัฐมีอำนาจตามกฎหมาย"],["c","เป็น ในกรณีที่หน่วยงานรัฐมีการเก็บรวบรวม ใช้ หรือเปิดเผยข้อมูลส่วนบุคคล"],["d","เป็น ในกรณีที่หน่วยงานรัฐมีหน้าที่ให้บริการสาธารณะกับประชาชน"]],a:"c"},
+      {n:56,q:"ในกรณีที่หน่วยงานรัฐจำเป็นจะต้องเก็บรวบรวม ใช้ หรือเปิดเผยข้อมูลส่วนบุคคลหน่วยงานรัฐจะต้อง",c:[["a","มีฐานทางกฎหมายและแจ้งรายละเอียดของการเก็บรวบรวมและใช้ข้อมูลส่วนบุคคลให้เจ้าของข้อมูลส่วนบุคคลทราบ"],["b","จัดให้มีการรักษาความมั่นคงปลอดภัยโดยไม่ต้องมีฐานทางกฎหมาย"],["c","ขอความยินยอมจากเจ้าของข้อมูลส่วนบุคคลทุกครั้งทุกกรณี"],["d","สั่งให้บุคคลอื่นประมวลผลข้อมูลส่วนบุคคลตามคำสั่งเสมอ"]],a:"a"},
+      {n:57,q:"ในกรณีที่ข้อมูลส่วนบุคคลที่หน่วยงานรัฐเก็บรวบรวมไว้ถูกเข้าถึงโดยไม่ชอบด้วยกฎหมาย เช่น ถูกบุคคลภายนอกโจมตี หน่วยงานรัฐต้อง",c:[["a","แจ้งเหตุการละเมิดข้อมูลส่วนบุคคลแก่สำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคลโดยไม่ชักช้าภายในเจ็ดสิบสองชั่วโมงนับแต่ทราบเหตุเท่าที่จะสามารถกระทำได้"],["b","แจ้งเหตุการละเมิดข้อมูลส่วนบุคคลแก่กระทรวงเจ้าสังกัดภายในสามวันนับแต่ทราบเหตุเท่าที่จะสามารถกระทำได้"],["c","แจ้งเหตุการละเมิดข้อมูลส่วนบุคคลแก่คณะกรรมการคุ้มครองข้อมูลส่วนบุคคลภายในหนึ่งเดือนแต่ทราบเหตุเท่าที่จะสามารถกระทำได้"],["d","ไม่มีข้อใดถูก"]],a:"a"},
+      {n:58,q:"หน่วยงานรัฐสามารถเก็บรวบรวมและใช้ข้อมูลส่วนบุคคลได้ตลอดไปในทุกกรณีโดยไม่ต้องลบข้อมูลส่วนบุคคลเลยได้หรือไม่",c:[["a","ได้ เนื่องจากหน่วยงานรัฐเป็นนิติบุคคลมหาชน"],["b","ได้ เนื่องจากหน่วยงานรัฐไม่จำเป็นต้องขอความยินยอมจากเจ้าของข้อมูลส่วนบุคคล"],["c","ไม่ได้ และจะต้องลบข้อมูลส่วนบุคคลเมื่อหมดความจำเป็นที่จะต้องเก็บรวบรวมหรือใช้ข้อมูลส่วนบุคคล"],["d","ไม่ได้ และจะต้องโอนข้อมูลส่วนบุคคลที่เก็บรวบรวมไว้ให้สำนักงานคณะกรรมการคุ้มครองข้อมูลส่วนบุคคล"]],a:"c"},
+      {n:59,q:"การตั้งเจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคลของหน่วยงานรัฐข้อใดถูกต้องที่สุด",c:[["a","ต้องตั้งโดยไม่มีข้อยกเว้นใด ๆ"],["b","ต้องตั้งโดยแม้ว่าจะไม่มีการเก็บรวบรวม ใช้ หรือเปิดเผยข้อมูลส่วนบุคคล"],["c","ต้องตั้งในกรณีที่กิจกรรมหลักของหน่วยงานรัฐนั้นเป็นการเก็บรวบรวม ใช้ หรือเปิดเผยข้อมูลส่วนบุคคลที่มีความอ่อนไหวตามมาตรา 26 ของพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562"],["d","ไม่ต้องตั้งเนื่องจากพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 ได้บัญญัติข้อยกเว้นในการตั้งให้กับหน่วยงานรัฐ"]],a:"c"},
+      {n:60,q:"ในกรณีที่ข้อมูลส่วนบุคคลถูกล่วงละเมิดระหว่างการประมวลผล ข้อตกลงการประมวลผลข้อมูลส่วนบุคคลจะกำหนดให้",c:[["a","ผู้ประมวลผลข้อมูลส่วนบุคคลแจ้งให้ผู้ควบคุมข้อมูลส่วนบุคคลทราบโดยไม่ชักช้า"],["b","ผู้ประมวลผลข้อมูลส่วนบุคคลยกเลิกข้อตกลงการประมวลผลข้อมูลส่วนบุคคล"],["c","ผู้ควบคุมข้อมูลส่วนบุคคลมีสิทธิคิดค่าปรับผู้ประมวลผลข้อมูลส่วนบุคคล"],["d","ผู้ควบคุมข้อมูลส่วนบุคคลมีสิทธิไม่ชำระค่าตอบแทนการประมวลผลข้อมูลส่วนบุคคล"]],a:"a"},
+      {n:61,q:"ข้อตกลงการประมวลผลข้อมูลส่วนบุคคลมีสาระสำคัญอย่างไร",c:[["a","เป็นข้อตกลงระหว่างที่มีเนื้อหาเช่นเดียวกับข้อสัญญารักษาความลับ"],["b","เป็นข้อตกลงระหว่างผู้ควบคุมข้อมูลส่วนบุคคลและผู้ประมวลผลข้อมูลส่วนบุคคลเพื่อควบคุมการดำเนินงานตามหน้าที่ของผู้ประมวลผลข้อมูลส่วนบุคคลให้เป็นไปตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562"],["c","เป็นข้อตกลงที่กำหนดค่าตอบแทนการประมวลผลข้อมูลส่วนบุคคล"],["d","ไม่มีข้อใดถูก"]],a:"b"},
+      {n:62,q:"ข้อใดไม่ใช่ลักษณะของสิทธิในการถอนความยินยอม",c:[["a","สามารถถอนได้ง่ายระดับเดียวกับตอนให้ความยินยอม"],["b","ไม่ได้รับผลกระทบจากการถอนความยินยอม"],["c","ต้องยุติการประมวลผลข้อมูลส่วนบุคคล"],["d","ไม่มีข้อถูก"]],a:"b"},
+      {n:63,q:"ข้อใดไม่ใช่สิทธิของเจ้าของข้อมูลส่วนบุคคลตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคลฯ",c:[["a","สิทธิเกี่ยวข้องกับการประมวลผลอัตโนมัติ"],["b","สิทธิในการได้รับแจ้งข้อมูล"],["c","สิทธิเข้าถึงข้อมูล"],["d","สิทธิในการแก้ไขข้อมูลให้ถูกต้อง"]],a:"a"},
+      {n:64,q:"ข้อใดไม่ใช่เหตุปฏิเสธการใช้สิทธิของเจ้าของข้อมูลส่วนบุคคล",c:[["a","ไม่มีเหตุผลจะใช้สิทธิ (unfounded)"],["b","เป็นการใช้สิทธิที่มากเกินส่วน (excessive)"],["c","ไม่จ่ายค่าธรรมเนียมการใช้สิทธิ กรณีที่จำเป็นต้องมี"],["d","ไม่มีข้อถูก"]],a:"c"},
+      {n:65,q:"การส่งหรือโอนข้อมูลส่วนบุคคลไปยังต่างประเทศเป็นการจำเป็นเพื่อการปฏิบัติตามสัญญาซึ่งเจ้าของข้อมูลส่วนบุคคลเป็นคู่สัญญาสามารถทำได้โดยชอบด้วยกฎหมายหรือไม่",c:[["a","ได้แม้ประเทศปลายทางนั้นจะยังไม่มีมาตรฐานการคุ้มครองข้อมูลส่วนบุคคลที่เพียงพอ"],["b","ไม่ได้เนื่องจากจะทำให้ข้อมูลส่วนบุคคลที่ถูกส่งหรือโอนไปตกอยู่ในความเสี่ยง"],["c","ได้เฉพาะกรณีที่มีการกำหนดนโยบายในการคุ้มครองข้อมูลส่วนบุคคลเพื่อการส่งหรือโอนข้อมูลส่วนบุคคลไปยังผู้ควบคุมข้อมูลส่วนบุคคลหรือผู้ประมวลผลข้อมูลส่วนบุคคลซึ่งอยู่ต่างประเทศและอยู่ในเครือกิจการหรือเครือธุรกิจเดียวกันเพื่อการประกอบกิจการหรือธุรกิจร่วมกันเท่านั้น"],["d","ได้เฉพาะกรณีที่คณะกรรมการคุ้มครองข้อมูลส่วนบุคคลอนุญาตเท่านั้น"]],a:"a"},
+      {n:66,q:"ข้อใดแสดงถึงลักษณะของนโยบายในการคุ้มครองข้อมูลส่วนบุคคลเพื่อการส่งหรือโอนข้อมูลส่วนบุคคลไปยังผู้ควบคุมข้อมูลส่วนบุคคลหรือผู้ประมวลผลข้อมูลส่วนบุคคลซึ่งอยู่ต่างประเทศและอยู่ในเครือกิจการหรือเครือธุรกิจเดียวกันเพื่อการประกอบกิจการหรือธุรกิจร่วมกัน (Binding Corporate Rules) ได้ถูกต้องที่สุด",c:[["a","เป็นข้อตกลงที่กำหนดหน้าที่ของผู้ประมวลผลข้อมูลส่วนบุคคล"],["b","เป็นข้อตกลงที่กำหนดหลักเกณฑ์ในการคุ้มครองข้อมูลส่วนบุคคลที่ถูกส่งหรือโอนไปยังต่างประเทศซึ่งมีผลใช้บังคับได้ตามกฎหมาย"],["c","เป็นข้อตกลงที่เป็นข้อแนะนำแนวการปฏิบัติต่อข้อมูลส่วนบุคคลที่ถูกส่งหรือโอนไปยังต่างประเทศ"],["d","ไม่มีข้อใดถูก"]],a:"b"},
+      {n:67,q:"ผู้ใดมีหน้าที่ตามกฎหมายในการตอบสนองต่อการใช้สิทธิของเจ้าของข้อมูล",c:[["a","ผู้ควบคุมข้อมูล"],["b","ผู้ประมวลผลข้อมูล"],["c","ทั้งผู้ควบคุมข้อมูลและผู้ประมวลผลข้อมูล"],["d","ไม่มีข้อใดถูกต้อง"]],a:"a"},
+      {n:68,q:"ใครไม่มีหน้าที่การบันทึกรายการกิจกรรมการประมวลผลข้อมูลส่วนบุคคล",c:[["a","ผู้ควบคุมข้อมูลส่วนบุคคล"],["b","ผู้ประมวลผลข้อมูลส่วนบุคคล"],["c","เจ้าของข้อมูลส่วนบุคคล"],["d","เจ้าหน้าที่คุ้มครองข้อมูลส่วนบุคคล"]],a:"c"},
+      {n:69,q:"การพิจารณาฐานในการประมวลผลนั้น หากทราบข้อมูลส่วนบุคคลที่ถูกประมวลผลก็เพียงพอใช่หรือไม่?",c:[["a","ใช่"],["b","ไม่ใช่"]],a:"b"},
+      {n:70,q:"หน่วยงานของรัฐนั้นโดยปกติควรใช้ฐานในการประมวลผลใดในกิจกรรมที่อยู่ภายใต้ขอบเขตอำนาจหน้าที่ของตน",c:[["a","ความยินยอม ตามมาตรา 24"],["b","จำเป็นเพื่อการปฏิบัติหน้าที่ในการดำเนินภารกิจเพื่อประโยชน์สาธารณะ ตามมาตรา 24 (4)"]],a:"b"},
+      {n:71,q:"เพศ เป็นข้อมูลอ่อนไหวที่จำเป็นต้องมีการใช้เงื่อนไขพิเศษในการประมวลผลข้อมูล",c:[["a","ถูกต้อง"],["b","ไม่ถูกต้อง"]],a:"b"},
+      {n:72,q:"การที่แพทย์รักษาผู้ป่วยจำเป็นต้องส่งข้อมูลผู้ป่วยให้แก่แพทย์อีกท่านหนึ่งซึ่งทำงานอยู่อีกโรงพยาบาลหนึ่ง สามารถใช้เงื่อนไขในการรักษาประโยชน์อันจำเป็นต่อชีวิต ร่างกาย หรือสุขภาพของบุคคล (vital interest) ได้หรือไม่",c:[["a","ได้"],["b","ไม่ได้"]],a:"b"},
+      {n:73,q:"หากเก็บรูปภาพของบุคคลไว้เพื่อการยืนยันตัวตน โดยลักษณะการแต่งกายสามารถบอกได้ว่าเป็นคนเชื้อชาติใด หรือศาสนาใด ข้อมูลดังกล่าวถือว่าเป็นข้อมูลอ่อนไหวที่จำเป็นต้องใช้เงื่อนไขพิเศษในการประมวลผลหรือไม่",c:[["a","ใช่"],["b","ไม่ใช่"]],a:"b"},
+      {n:74,q:"ผู้ประมวลผลข้อมูลส่วนบุคคล มีหน้าที่ใดตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562",c:[["a","ประมวลผลข้อมูลส่วนบุคคลตามคำสั่งของผู้ควบคุมข้อมูลส่วนบุคคล"],["b","จัดให้มีมาตรการรักษาความมั่นคงปลอดภัยที่เหมาะสม เพื่อป้องกันการสูญหาย เข้าถึง ใช้ เปลี่ยนแปลง แก้ไข หรือเปิดเผยข้อมูลส่วนบุคคลโดยปราศจากอำนาจหรือโดยมิชอบ"],["c","จัดทำและเก็บรักษาบันทึกรายการของกิจกรรมการประมวลผลข้อมูลส่วนบุคคลไว้"],["d","ถูกทุกข้อ"]],a:"d"},
+      {n:75,q:"มีกรณีที่พระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 จะไม่ใช้บังคับกับหน่วยงานภาครัฐหรือไม่",c:[["a","ไม่มี เนื่องจากหน่วยงานรัฐเป็นผู้ควบคุมข้อมูลส่วนบุคคลไม่ได้"],["b","ไม่มี เนื่องจากหน่วยงานรัฐสามารถอาศัยฐานการปฏิบัติหน้าที่ตามกฎหมายในการเก็บรวบรวม ใช้ หรือเปิดเผยข้อมูลส่วนบุคคลได้"],["c","มี ในกรณีที่หน่วยงานรัฐได้แจ้งรายละเอียดการเก็บรวบรวมและใช้ข้อมูลส่วนบุคคลให้เจ้าของข้อมูลส่วนบุคคลทราบแล้ว"],["d","มี ในกรณีเช่นการดำเนินการของหน่วยงานรัฐที่มีหน้าที่ในการรักษาความมั่นคงของรัฐ"]],a:"d"},
+      {n:76,q:"การส่งหรือโอนข้อมูลส่วนบุคคลไปยังต่างประเทศสามารถเกิดขึ้นได้โดยชอบด้วยกฎหมายหรือไม่",c:[["a","ไม่ได้เลยไม่ว่าในกรณีใด"],["b","ได้หากว่ามีข้อตกลงการประมวลผลข้อมูลส่วนบุคคลระหว่างผู้โอนและผู้รับโอน"],["c","ได้หากว่าประเทศปลายทางมีมาตรฐานการคุ้มครองข้อมูลส่วนบุคคลที่เพียงพอ"],["d","ได้หากว่ารัฐบาลไทยมีความสัมพันธ์ทางการทูตกับประเทศปลายทาง"]],a:"c"}
+    ];
+
+    // Part 2: 196 Questions from Exam_Questions.docx & Answer_Key.docx
+    const PART2_QUESTIONS = [
+      {n:1,q:"หลักการทดรอบของเฟืองสามารถนำมาใช้ช่วยในการคำนวณอัตโนมัติได้อย่างไร",c:[["a","อัตราส่วนเฟืองสามารถควบคุมความเร็วได้"],["b","เฟืองทดสามารถช่วยในการส่งกำลังได้"],["c","การทดรอบเทียบเท่าการทดเลขในหลักต่างๆ"],["d","การหมุนของเฟืองสามารถทำได้โดยไม่ต้องใช้แรงภายนอก"]],a:"c"},
+      {n:2,q:"ตัวเลือกใดแสดงแนวคิดของการทำงานโดยคอมพิวเตอร์เชิงไฟฟ้า",c:[["a","หลักการเปิด/ปิดสวิตช์ แทนค่า 0 หรือ 1 ในเลขฐานสอง"],["b","หลักการทดเลขในระบบฐานสอง"],["c","หลักการเหนี่ยวนำของแม่เหล็กไฟฟ้า"],["d","หลักการต้านทานกระแสของโหลดตัวต้านทาน"]],a:"a"},
+      {n:3,q:"ทรานซิสเตอร์ถูกใช้อย่างไรในระบบคอมพิวเตอร์",c:[["a","ใช้แทนสวิตช์เชิงไฟฟ้า"],["b","ใช้แทนสวิตช์เชิงกล"],["c","ใช้แทนตัวต้านทานกระแส"],["d","ใช้แทนตัวนำไฟฟ้าให้กระแสไหล"]],a:"a"},
+      {n:4,q:"กำหนดข้อมูลเลขฐานสอง ขนาด 8 หลักเป็น 10010000 ตัวเลือกใดถูกต้อง",c:[["a","หากกำหนดให้บิตแรกซ้ายสุดเป็นเครื่องหมาย โดย 1 แทนค่าลบ และ 0 แทนค่าบวก เลขนี้จะเป็นจำนวนลบ"],["b","หากไม่มีการเก็บเครื่องหมาย เลขนี้จะแทนค่า 144 ในฐานสิบ"],["c","เลข 8 หลักสามารถแทนค่าได้ทั้งหมด 256 รูปแบบ ซึ่งจะเป็นจำนวนบวกทั้งหมด หรือมีทั้งบวกและลบก็ได้"],["d","ถูกทุกตัวเลือก"]],a:"d"},
+      {n:5,q:"หากต้องการแทนจำนวนไม่เต็มด้วยเลขฐานสอง มีสิ่งใดที่ต้องพิจารณาบ้าง",c:[["a","วิธีการแทนตำแหน่งของจุดที่คั่นระหว่างจำนวนเต็มกับเศษ"],["b","จำนวนหลักเพื่อเก็บให้ได้จำนวนนัยสำคัญตามต้องการ"],["c","วิธีการแทนเครื่องหมายลบ"],["d","ถูกทุกตัวเลือก"]],a:"d"},
+      {n:6,q:"คอมพิวเตอร์เก็บข้อมูลที่เป็นข้อความต่างๆ อย่างไร",c:[["a","ให้เลขฐานสอง 1 ชุดตัวแทนข้อความ 1 ข้อความ และเก็บชุดของเลขฐานสอง"],["b","มองข้อความเป็นลำดับของตัวอักษร และใช้รหัสฐานสองแทนตัวอักษรแต่ละตัว"],["c","มองข้อความเป็นภาพ แล้วเก็บภาพแทนข้อความแต่ละข้อความ"],["d","ถูกทุกตัวเลือก"]],a:"b"},
+      {n:7,q:"ตัวเลือกใดถูกต้องเกี่ยวกับการเก็บข้อมูลภาพ",c:[["a","การเก็บข้อมูลสีของภาพสีเป็นการเก็บข้อมูลองค์ประกอบของสีที่ทำให้เกิดสีนั้นๆ ขึ้น"],["b","การเก็บข้อมูลภาพทำได้โดยแบ่งภาพเป็นจุดเล็กๆ และเก็บสีของแต่ละจุดนั้น"],["c","การเก็บข้อมูลภาพสามารถทำได้โดยเก็บข้อมูลสมการที่ใช้ในการวาดเส้นให้เกิดภาพนั้น"],["d","ถูกทุกตัวเลือก"]],a:"d"},
+      {n:8,q:"หากข้อมูลทุกรูปแบบในคอมพิวเตอร์ปัจจุบันเก็บโดยใช้เลขฐานสองทั้งหมด ตัวเลือกใดต่อไปนี้ถูกต้อง",c:[["a","เราสามารถเปิดไฟล์ข้อความ โดยมองเป็นรูปภาพได้ แต่น่าจะเป็นรูปที่ดูไม่รู้เรื่อง"],["b","เราสามารถมองไฟล์รูปภาพเป็นชุดของตัวเลข สามารถนำมาบวกลบได้"],["c","เราสามารถมองไฟล์วิดีโอเป็นไฟล์ข้อความขนาดใหญ่ได้ แต่น่าจะอ่านไม่ออก"],["d","ถูกทุกตัวเลือก"]],a:"d"},
+      {n:9,q:"หากกำหนด A = 0100 และ B = 0010 ตัวเลือกใดเป็นผลลัพธ์ของ A AND B",c:[["a","0000"],["b","0110"],["c","1000"],["d","1001"]],a:"a"},
+      {n:10,q:"หากกำหนด A = 0100 และ B = 0010 ตัวเลือกใดเป็นผลลัพธ์ของ A OR B",c:[["a","0000"],["b","0110"],["c","1000"],["d","1001"]],a:"b"},
+      {n:11,q:"หากกำหนด A = 0 และ B = 1 ตัวเลือกใดเป็นผลลัพธ์ของวงจรต่อไปนี้",img:"img1",c:[["a","0"],["b","1"],["c","0 หรือ 1 ก็ได้"],["d","2"]],a:"b"},
+      {n:12,q:"หากกำหนด A = 0 และ B = 1 ตัวเลือกใดเป็นผลลัพธ์ของวงจรต่อไปนี้",img:"img2",c:[["a","0"],["b","1"],["c","0 หรือ 1 ก็ได้"],["d","2"]],a:"b"},
+      {n:13,q:"กำหนดวงจร และจังหวะสัญญาณนาฬิกาดังนี้ และวงจรทำงานตามรอบขาขึ้นของสัญญาณนาฬิกา ซึ่งจะคำนวณผลลัพธ์จากข้อมูลเข้าก่อนขาขึ้นของสัญญาณนาฬิกา สัญญาณผลลัพธ์ Q ควรมีลักษณะอย่างไร",img:"img3",c:[["a","A)"],["b","B)"],["c","C)"],["d","D)"]],a:"c"},
+      {n:14,q:"จากตัวเลือกต่อไปนี้ หน่วยความจำแบบใดทำงานได้เร็วที่สุด",c:[["a","HDD"],["b","ROM"],["c","RAM"],["d","CPU"]],a:"c"},
+      {n:15,q:"ตัวเลือกใดเป็นส่วนคำนวณของคอมพิวเตอร์",c:[["a","HDD"],["b","SSD"],["c","RAM"],["d","CPU"]],a:"d"},
+      {n:16,q:"ความถี่สัญญาณนาฬิกา หรือ CPU clock ที่ช้าหรือเร็วมีผลอย่างไรกับการทำงานของคอมพิวเตอร์",c:[["a","หากมีความถี่สูงขึ้น จะทำงานได้หลายอย่างขึ้นในเวลาที่เท่ากัน"],["b","หากมีความถี่ที่สูงขึ้น จะส่งข้อมูลได้มากขึ้นในเวลาที่เท่ากัน"],["c","หากมีความถี่ที่สูงขึ้น จะเก็บข้อมูลที่นัยสำคัญละเอียดมากขึ้น"],["d","หากมีความถี่ที่สูงขึ้น จะแทนข้อมูลได้มากขึ้น"]],a:"a"},
+      {n:17,q:"หน่วยความจำแบบใดเก็บข้อมูลได้แม้ไม่มีไฟเลี้ยง",c:[["a","RAM"],["b","Disk"],["c","Cache"],["d","CPU"]],a:"b"},
+      {n:18,q:"ขั้นตอน decode instruction ใน pipeline ทำงานอะไร",c:[["a","อ่านรหัสคำสั่งของโปรแกรมเข้ามาในหน่วยความจำ"],["b","ตีความรหัสคำสั่งเพื่อเตรียมสั่งการส่วนต่างๆ ของคอมพิวเตอร์"],["c","คำนวณค่าผลลัพธ์"],["d","แปลงข้อมูลผลลัพธ์เพื่อเก็บในหน่วยความจำ"]],a:"b"},
+      {n:19,q:"คอมพิวเตอร์ประกอบด้วยฮาร์ดแวร์ชิ้นต่างๆ จำนวนมาก การทำงานร่วมกันของอุปกรณ์ต่างๆ เหล่านี้เกิดขึ้นได้อย่างไร",c:[["a","โปรแกรมคอมพิวเตอร์มีหน้าที่ควบคุมและประสานงานการทำงานส่วนต่างๆ"],["b","หน่วยประมวลผลกลางรับคำสั่งและประมวลผลเป็นสัญญาณควบคุมการทำงานส่วนต่างๆ"],["c","ระบบปฏิบัติการดำเนินการควบคุมและประสานงานการทำงานส่วนต่างๆ"],["d","ผู้ควบคุมระบบคอมพิวเตอร์ดำเนินการควบคุมการทำงานของฮาร์ดแวร์ส่วนต่างๆ"]],a:"b"},
+      {n:20,q:"มนุษย์สั่งการคอมพิวเตอร์ได้อย่างไร",c:[["a","ผ่านชุดคำสั่งซึ่งเป็นรหัสฐานสอง"],["b","ผ่านภาษาแอสเซมบลี"],["c","ผ่านภาษาโปรแกรมระดับสูง"],["d","ถูกทุกตัวเลือก"]],a:"d"},
+      {n:21,q:"ภาษาแอสเซมบลีคืออะไร",c:[["a","ภาษาโปรแกรมซึ่งเทียบเท่ากับภาษาเครื่อง แต่เขียนให้อยู่ในรูปแบบที่อ่านได้ง่ายขึ้น"],["b","ภาษาโปรแกรมระดับสูง มีโครงสร้างรองรับการทำงานที่หลากหลาย"],["c","ภาษาโปรแกรมกลางที่สามารถทำงานได้กับคอมพิวเตอร์หลายชนิด"],["d","ภาษาที่ใช้ในการกำหนดรูปแบบการทำงานร่วมกันของอุปกรณ์ในระบบคอมพิวเตอร์"]],a:"a"},
+      {n:22,q:"การมี core หรือแกนประมวลผล มากขึ้น มีประโยชน์อย่างไร",c:[["a","สามารถประมวลผลหลายๆ งานพร้อมกันโดยกระจายไปทำงานตามแกนต่างๆ กันได้"],["b","สามารถแบ่งงานเป็นส่วนย่อยๆ ไปทำงานตามแกนต่างๆ ทำให้งานโดยรวมเสร็จเร็วขึ้น"],["c","สามารถแบ่งให้ผู้ใช้หลายๆ คนเข้ามาใช้งานพร้อมกันได้ โดยแบ่งแกนประมวลผลกันไปใช้"],["d","ถูกทุกตัวเลือก"]],a:"d"},
+      {n:23,q:"ชุดคำสั่งภาษาเครื่องนั้น มีจำนวนคำสั่งจำกัด หากต้องการทำงานที่ไม่มีคำสั่งภาษาเครื่องโดยตรง ควรทำอย่างไร",c:[["a","ทำไม่ได้ เนื่องจากชุดคำสั่งไม่รองรับ"],["b","เปลี่ยนชุดคำสั่งใหม่ให้รองรับการทำงานที่ต้องการ"],["c","ใช้คำสั่งหลายๆ คำสั่งประกอบกัน เพื่อให้ทำงานตามที่ต้องการได้"],["d","ใช้ภาษาคอมพิวเตอร์ระดับสูง ซึ่งรองรับการทำงานที่หลากหลายขึ้น"]],a:"c"},
+      {n:24,q:"ตัวเลือกใดเป็นหน้าที่ของระบบปฏิบัติการ",c:[["a","จัดสรรทรัพยากรในระบบคอมพิวเตอร์ให้ซอฟต์แวร์ต่างๆ"],["b","ควบคุมสิทธิการใช้งานของผู้ใช้ในการเข้าถึงทรัพยากรต่างๆ"],["c","ติดต่อกับข่ายงานคอมพิวเตอร์"],["d","ถูกทุกตัวเลือก"]],a:"d"},
+      {n:25,q:"ตัวเลือกใดเป็นระบบปฏิบัติการ",c:[["a","Apple"],["b","Google"],["c","Microsoft"],["d","Android"]],a:"d"},
+      {n:26,q:"Device driver มีหน้าที่อะไร",c:[["a","จัดสรรทรัพยากรในระบบคอมพิวเตอร์ให้ซอฟต์แวร์ต่างๆ"],["b","ตรวจสอบการทำงานของฮาร์ดแวร์เมื่อเปิดเครื่อง"],["c","ควบคุมอุปกรณ์ต่อพ่วงโดยทำงานร่วมกับระบบปฏิบัติการ"],["d","จำลองการทำงานของอุปกรณ์ต่อพ่วง"]],a:"c"},
+      {n:27,q:"เหตุใดจึงต้องมีซอฟต์แวร์หลากหลายประเภท",c:[["a","เพื่อสะดวกในการบำรุงรักษา"],["b","เพื่อทำงานเฉพาะด้าน"],["c","เพื่อให้สะดวกในการออกแบบและพัฒนา"],["d","ถูกทุกตัวเลือก"]],a:"b"},
+      {n:28,q:"เหตุใดการสร้างไฟล์ เช่น ไฟล์ภาพ JPG บนโทรศัพท์เคลื่อนที่ สามารถนำไปเปิดในเครื่องอื่นๆ เช่น คอมพิวเตอร์ตั้งโต๊ะ ได้เช่นกัน แม้เครื่องนั้นจะมีสถาปัตยกรรมที่ต่างกัน",c:[["a","เพราะใช้โปรแกรมเดียวกันในการอ่านไฟล์"],["b","เพราะโปรแกรมอ่านไฟล์สามารถทำงานได้ในทุกระบบปฏิบัติการ"],["c","เพราะโปรแกรมอ่านไฟล์เข้าใจข้อตกลงการแทนข้อมูลของไฟล์"],["d","เพราะโปรแกรมอ่านไฟล์ทำงานได้ในทุกสถาปัตยกรรม"]],a:"c"},
+      {n:29,q:"ตัวเลือกใดเป็นความหมายของ ARPANet",c:[["a","ระบบการสื่อสารทางทหารของสหรัฐอเมริกา"],["b","เครือข่ายคอมพิวเตอร์ที่พัฒนาโดยหน่วยงานของรัฐบาลสหรัฐอเมริกา"],["c","เทคโนโลยีการสื่อสารผ่านดาวเทียม"],["d","ระบบปฏิบัติการสำหรับคอมพิวเตอร์"]],a:"b"},
+      {n:30,q:"ตัวเลือกใดกล่าวได้ถูกต้องเกี่ยวกับ decentralized network",c:[["a","มีจุดอ่อนไหวที่หากล้มเหลวแล้วจะทำให้ระบบทั้งหมดหยุดทำงาน"],["b","สามารถขยายระบบได้ง่ายและทนทานต่อความเสียหายของส่วนใดส่วนหนึ่ง"],["c","การควบคุมระบบทั้งหมดจะอยู่ในมือของผู้ใช้งานคนเดียว"],["d","มีการแลกเปลี่ยนข้อมูลที่ล่าช้าเมื่อเทียบกับระบบเครือข่ายแบบรวมศูนย์"]],a:"b"},
+      {n:31,q:"ตัวเลือกใดเป็นการส่งสัญญาณแบบใช้สาย",c:[["a","Ethernet"],["b","Internet"],["c","Intranet"],["d","LTE"]],a:"a"},
+      {n:32,q:"ตัวเลือกใดถูกต้องเกี่ยวกับ Packet switching vs circuit switching network",c:[["a","Packet switching สร้างเส้นทางการสื่อสารเฉพาะระหว่างผู้ส่งและผู้รับ"],["b","Circuit switching แบ่งข้อมูลออกเป็นแพ็กเก็ตเล็ก ๆ เพื่อส่งผ่านเครือข่าย"],["c","Packet switching ส่งข้อมูลเป็นแพ็กเก็ตและสามารถปรับเส้นทางตามความต้องการ"],["d","Circuit switching มีความยืดหยุ่นในการปรับเส้นทางตามสภาพเครือข่าย"]],a:"c"},
+      {n:33,q:"เหตุใดการส่งข้อมูลแบบ 4G จึงเร็วกว่าการส่งข้อมูลแบบ 2G",c:[["a","4G ตัดข้อมูลเป็นส่วนย่อยๆ ทำให้มี bandwidth มากขึ้น"],["b","4G ใช้เทคโนโลยีการเข้ารหัสข้อมูลที่มีประสิทธิภาพมากขึ้น"],["c","4G ใช้พลังงานน้อยกว่า 2G"],["d","4G มีจำนวนเสาสัญญาณมากกว่า 2G"]],a:"b"},
+      {n:34,q:"โพรโทคอลในเครือข่ายคืออะไร",c:[["a","ฮาร์ดแวร์ที่เชื่อมต่อคอมพิวเตอร์กับเครือข่าย"],["b","ชุดของกฎและมาตรฐานที่กำหนดวิธีการสื่อสารระหว่างอุปกรณ์ในเครือข่าย"],["c","โปรแกรมที่ช่วยจัดการและควบคุมการทำงานของคอมพิวเตอร์ในเครือข่าย"],["d","บริการที่ให้ผู้ใช้งานสามารถเข้าถึงอินเทอร์เน็ตได้"]],a:"b"},
+      {n:35,q:"หากเทียบการทำงานของอินเทอร์เน็ตกับระบบไปรษณีย์ บุรุษไปรษณีย์เทียบได้กับบริการอะไร",c:[["a","IP address"],["b","DNS"],["c","Packet"],["d","Router"]],a:"d"},
+      {n:36,q:"เหตุใดจึงออกแบบโพรโทคอลในเครือข่ายเป็น layer ต่างๆ",c:[["a","เพื่อเพิ่มความซับซ้อนในการออกแบบระบบเครือข่าย"],["b","เพื่อให้การพัฒนาระบบเครือข่ายสามารถทำได้อย่างเป็นระบบและง่ายต่อการจัดการ"],["c","เพื่อให้ทุกอุปกรณ์ใช้โพรโทคอลเดียวกันในการสื่อสาร"],["d","เพื่อเพิ่มความเร็วในการสื่อสารข้อมูลในเครือข่าย"]],a:"b"},
+      {n:37,q:"ระบบ ADSL ในปัจจุบันอาศัยสายโทรศัพท์ เหตุใดเราจึงสามารถใช้โทรศัพท์ไปพร้อมๆ กับเล่นอินเทอร์เน็ตแม้จะเป็นสายเดียวกัน",c:[["a","เนื่องจากสาย ADSL มีสายย่อยข้างในแยกการเชื่อมต่อโทรศัพท์กับอินเทอร์เน็ตออกจากกัน"],["b","เนื่องจากสาย ADSL มีคุณภาพสูง เหมาะสำหรับการสื่อสารทางเสียงและข้อมูล"],["c","เนื่องจากระบบ ADSL ส่งข้อมูลด้วยสัญญาณคนละแบบกับสัญญาณโทรศัพท์ จึงไม่มีผลกระทบการใช้งาน"],["d","เนื่องจากระบบ ADSL มีความเสถียร จึงสามารถใช้โทรศัพท์ไปพร้อมกันได้"]],a:"c"},
+      {n:38,q:"ตัวเลือกใดไม่ใช่ layer ใน internet protocol suite",c:[["a","Application layer"],["b","Transport layer"],["c","Database layer"],["d","Internet layer"]],a:"c"},
+      {n:39,q:"ตัวเลือกใดเป็นหน้าที่ของ Link layer",c:[["a","การส่งข้อมูลผ่านอินเทอร์เน็ต"],["b","การเปิด-ปิดการเชื่อมต่อ Wi-Fi"],["c","การรับและส่งข้อมูลบนเครือข่ายอินเทอร์เน็ต"],["d","การจัดการและควบคุมการสื่อสารในระดับฮาร์ดแวร์ของเครือข่าย"]],a:"d"},
+      {n:40,q:"ตัวเลือกใดเป็นหน้าที่ของ Internet layer",c:[["a","การเข้ารหัสข้อมูลเพื่อความปลอดภัย"],["b","การกำหนดเส้นทางการส่งข้อมูลจากหมายเลข IP"],["c","การควบคุมการเชื่อมต่อระหว่างเครื่องต้นทางกับปลายทาง"],["d","การจัดการการเชื่อมต่อแบบเป็นเฟรม"]],a:"b"},
+      {n:41,q:"ตัวเลือกใดเป็นหน้าที่ของ Transport layer",c:[["a","การเข้ารหัสข้อมูลเพื่อความปลอดภัย"],["b","การสร้างเส้นทางสำหรับการสื่อสาร"],["c","การกำหนดหมายเลข IP ให้กับอุปกรณ์ในเครือข่าย"],["d","การควบคุมการส่งข้อมูลและการเชื่อมต่อระหว่างเครื่อง"]],a:"d"},
+      {n:42,q:"ตัวเลือกใดเป็นหน้าที่ของ Application layer",c:[["a","การสร้างเส้นทางสำหรับการสื่อสาร"],["b","การส่งข้อมูลจากโปรแกรมต้นทางไปยังปลายทาง"],["c","การกำหนดหมายเลข IP ให้กับอุปกรณ์ในเครือข่าย"],["d","การจัดการเชื่อมต่อเป็นแบบเฟรม"]],a:"b"},
+      {n:43,q:"ระบบ LAN น่าจะอยู่ใน layer ใดใน internet protocol suite",c:[["a","Application layer - เพราะระบบ LAN มักใช้โพรโตคอลและบริการระดับสูงเช่น HTTP, FTP, และ DHCP สำหรับการเชื่อมต่อและการแบ่งปันข้อมูลในเครือข่ายภายใน"],["b","Network layer - เนื่องจากระบบ LAN มักมีการจัดการเรื่องของเส้นทางการส่งข้อมูลในเครือข่ายภายใน"],["c","Transport layer - ในบางกรณีระบบ LAN อาจใช้งานโพรโตคอลระดับนี้เพื่อการส่งข้อมูลที่ซับซ้อนระหว่างเครื่อง"],["d","Data Link layer - เนื่องจาก Data Link layer เกี่ยวข้องกับการสื่อสารระหว่างอุปกรณ์ในเครือข่ายเชื่อมโยงข้อมูลที่อยู่ในระดับฮาร์ดแวร์"]],a:"d"},
+      {n:44,q:"Transport layer เทียบได้กับการทำงานใดในระบบไปรษณีย์",c:[["a","การแบ่งข้อมูลลงเป็นส่วนๆ เพื่อใส่ลงกล่องพัสดุ"],["b","การระบุที่อยู่ปลายทางเพื่อให้ไปรษณีย์นำส่งตามที่อยู่"],["c","การออกแบบกล่องพัสดุที่เป็นมาตรฐาน"],["d","การระบุชื่อผู้รับเพื่อให้ไปถึงบุคคลที่ต้องการ"]],a:"a"},
+      {n:45,q:"ตัวเลือกใดเป็นหน้าที่ของ router",c:[["a","การเชื่อมต่ออุปกรณ์ในเครือข่ายด้วยสายสัญญาณแบบไร้สาย"],["b","การสร้างเส้นทางสำหรับการสื่อสารระหว่างเครือข่าย"],["c","การให้บริการเพื่อเชื่อมต่อแอปพลิเคชัน"],["d","การจัดการการสื่อสารและการส่งข้อมูลระหว่างเครือข่าย"]],a:"b"},
+      {n:46,q:"ตัวเลือกใดเป็น IP address ในระบบ IPv4 ที่ถูกต้อง",c:[["a","192.168.0.256"],["b","10.256.30.40"],["c","172.16.0.1"],["d","300.400.500.600"]],a:"c"},
+      {n:47,q:"ตัวเลือกใดเป็น IP address ในระบบ IPv4 ที่ถูกต้อง",c:[["a","1.2.3.4"],["b","100.200.300.400"],["c","1.2.3.4.5.6"],["d","256.256.256.256"]],a:"a"},
+      {n:48,q:"หากมี IP address ในระบบ IPv4 ไม่เพียงพอกับการใช้งาน ตัวเลือกใดเป็นวิธีในการแก้ปัญหา",c:[["a","ใช้ private IP address ภายใน และใช้ public IP address เดียวสำหรับต่อกับเครือข่ายภายนอก"],["b","สมัครสมาชิกองค์กร IANA เพื่อขอรับ public IP address เพิ่มเติม"],["c","เพิ่มการใช้งาน public IP address เพื่อเพิ่มจำนวน IP address ที่ใช้งานได้"],["d","กำหนด IP address เพิ่มตามที่ต้องการ"]],a:"a"},
+      {n:49,q:"ตัวเลือกใดอธิบายการทำงานของ DNS ได้ถูกต้อง",c:[["a","เป็นโปรโตคอลที่ใช้ในการเข้ารหัสข้อมูลเพื่อความปลอดภัยในการสื่อสารระหว่างเครือข่าย"],["b","เป็นระบบที่ใช้ในการจัดสรรที่อยู่ IP และคอนฟิกเครื่องให้กับอุปกรณ์ในเครือข่าย"],["c","เป็นระบบที่ใช้ในการแปลงชื่อโดเมนเป็นที่อยู่ IP"],["d","เป็นส่วนหนึ่งของฮาร์ดแวร์ที่ใช้ในการสร้างเครือข่ายไร้สาย"]],a:"c"},
+      {n:50,q:"ตัวเลือกใดอธิบายการทำงานของ DHCP ได้ถูกต้อง",c:[["a","เป็นโปรโตคอลที่ใช้ในการเข้ารหัสข้อมูลเพื่อความปลอดภัยในการสื่อสารระหว่างเครือข่าย"],["b","เป็นระบบที่ใช้ในการจัดสรรที่อยู่ IP และคอนฟิกเครื่องให้กับอุปกรณ์ในเครือข่าย"],["c","เป็นระบบที่ใช้ในการแปลงชื่อโดเมนเป็นที่อยู่ IP"],["d","เป็นส่วนหนึ่งของฮาร์ดแวร์ที่ใช้ในการสร้างเครือข่ายไร้สาย"]],a:"b"},
+      {n:51,q:"หากไม่มีชื่อโดเมน สามารถรับส่งข้อมูลระหว่างต้นทางและปลายทางได้หรือไม่ เพราะเหตุใด",c:[["a","ไม่สามารถรับส่งข้อมูลได้ เนื่องจากต้องมีชื่อโดเมนเพื่อให้ระบบ DNS ระบุที่อยู่ IP ของต้นทางและปลายทาง"],["b","สามารถรับส่งข้อมูลได้ โดยใช้ที่อยู่ IP เฉพาะเป็นตัวระบุต้นทางและปลายทาง"],["c","สามารถรับส่งข้อมูลได้ โดยการใช้ชื่อโดเมนชั่วคราวที่ระบบสร้างขึ้นในขณะการสื่อสาร"],["d","ไม่สามารถรับส่งข้อมูลได้ เนื่องจากการสื่อสารจำเป็นต้องมีการระบุชื่อโดเมนในการสร้างเชื่อมต่อ"]],a:"b"},
+      {n:52,q:"เหตุใดการส่งข้อมูลไปอินเทอร์เน็ตจึงสามารถเดินทางไปยังปลายทางได้ถูกต้อง",c:[["a","เนื่องจากมีการเชื่อมต่อโดยตรงระหว่างเครื่องต้นทางกับปลายทาง จึงสามารถส่งข้อมูลไปได้ถูกต้อง"],["b","เนื่องจากมีโพรโทคอลในการกำหนดเส้นทางการส่งข้อมูลโดยพิจารณาจากเลขที่อยู่ของเครื่อง"],["c","เนื่องจากมีโพรโทคอลที่ใช้ในการตรวจสอบและแก้ไขข้อผิดพลาดของข้อมูล จึงทำให้ข้อมูลที่ปลายทางถูกต้อง"],["d","เนื่องจากมีโพรโทคอลที่กำหนดรูปแบบในการรับส่งข้อมูล จึงทำให้ส่งข้อมูลได้ถูกต้อง"]],a:"b"},
+      {n:53,q:"หากมีเครื่องสองเครื่องในเครือข่าย ที่มี IP address ซ้ำกัน จะเกิดอะไรขึ้นได้บ้าง",c:[["a","เครื่องที่มี IP address ซ้ำกันอาจจะไม่สามารถรับส่งข้อมูลกับเครื่องอื่นๆ ได้"],["b","เครื่องที่มี IP address ซ้ำกันอาจจะเสียหายได้"],["c","ฮาร์ดแวร์ระบบเครือข่ายอาจจะมีปัญหาได้"],["d","เครื่องทั้งหมดในระบบเครือข่ายทั้งระบบอาจจะรับส่งข้อมูลไม่ได้"]],a:"a"},
+      {n:54,q:"อินเทอร์เน็ตของทุกสรรพสิ่ง (IoT) หมายถึงอะไร?",c:[["a","เครือข่ายคอมพิวเตอร์"],["b","การเชื่อมต่อของอุปกรณ์ต่างๆ เพื่อแลกเปลี่ยนข้อมูล"],["c","การใช้งานอินเทอร์เน็ตบนมือถือ"],["d","การสื่อสารแบบไร้สาย"]],a:"b"},
+      {n:55,q:"เซ็นเซอร์ใน IoT มีหน้าที่อะไร?",c:[["a","ประมวลผลข้อมูล"],["b","ส่งข้อมูลไปยังอุปกรณ์อื่น"],["c","ตรวจจับและรวบรวมข้อมูลจากสภาพแวดล้อม"],["d","เก็บข้อมูลในคลาวด์"]],a:"c"},
+      {n:56,q:"ในการนำเสนอข้อมูล IoT, การวิเคราะห์ข้อมูลมีความสำคัญอย่างไร?",c:[["a","ทำให้ข้อมูลมีสีสัน"],["b","ช่วยให้เข้าใจข้อมูลได้ง่ายขึ้น"],["c","เพิ่มความปลอดภัยให้กับข้อมูล"],["d","ลดขนาดข้อมูล"]],a:"b"},
+      {n:57,q:"การประยุกต์ใช้ IoT ในบ้านอัจฉริยะมีตัวอย่างอย่างไร?",c:[["a","การเล่นเกมออนไลน์"],["b","การควบคุมอุณหภูมิและแสงสว่างอัตโนมัติ"],["c","การทำงานออนไลน์"],["d","การท่องเว็บไซต์"]],a:"b"},
+      {n:58,q:"IoT มีผลต่อภาคการศึกษาอย่างไร?",c:[["a","ทำให้เรียนรู้ได้เฉพาะในห้องเรียน"],["b","ช่วยให้การเรียนการสอนเป็นไปอย่างไร้ประสิทธิภาพ"],["c","ไม่มีผลต่อการศึกษา"],["d","ช่วยส่งเสริมการเรียนรู้แบบโต้ตอบและเข้าถึงข้อมูลได้ง่าย"]],a:"d"},
+      {n:59,q:"IoT สามารถช่วยลดต้นทุนในการเกษตรอย่างไร?",c:[["a","โดยการเพิ่มการใช้ปุ๋ย"],["b","ผ่านการควบคุมแหล่งน้ำอัตโนมัติ"],["c","ด้วยการลดการใช้เทคโนโลยี"],["d","ไม่มีผลต่อต้นทุนการเกษตร"]],a:"b"},
+      {n:60,q:"อินเทอร์เน็ตของทุกสรรพสิ่งช่วยในด้านการแพทย์ได้อย่างไร?",c:[["a","การบันทึกข้อมูลผู้ป่วยแบบดั้งเดิม"],["b","การเพิ่มประสิทธิภาพการจัดสรรทรัพยากร"],["c","การให้คำปรึกษาทางการแพทย์ทางไกล"],["d","การเพิ่มประสิทธิภาพการจัดสรรทรัพยากร และการให้คำปรึกษาทางการแพทย์ทางไกล"]],a:"d"},
+      {n:61,q:"การเชื่อมต่อข้อมูลใน IoT ใช้เทคโนโลยีใด?",c:[["a","ใช้เฉพาะเทคโนโลยีไร้สายเท่านั้น"],["b","ใช้เฉพาะเทคโนโลยีมีสายเท่านั้น"],["c","ใช้ได้ทั้งแบบมีสายและไร้สาย"],["d","ไม่ใช้การเชื่อมต่อ"]],a:"c"},
+      {n:62,q:"ข้อไหนไม่ใช่ประโยชน์ของ IoT?",c:[["a","การปรับปรุงประสบการณ์ผู้ใช้"],["b","ความสามารถในการตัดสินใจอัตโนมัติ"],["c","การเพิ่มความสะดวกสบาย"],["d","การเพิ่มการใช้พลังงาน"]],a:"d"},
+      {n:63,q:"การประยุกต์ใช้ IoT ในเมืองอัจฉริยะมีคุณลักษณะอย่างไร?",c:[["a","การเพิ่มจำนวนรถยนต์"],["b","การจัดการขยะอัจฉริยะ"],["c","การลดการใช้งานอินเทอร์เน็ต"],["d","ไม่มีการปรับปรุงใด ๆ"]],a:"b"},
+      {n:64,q:"อุปกรณ์ IoT ที่ใช้งานในบ้านสามารถทำอะไรได้บ้าง?",c:[["a","ควบคุมเครื่องใช้ไฟฟ้า"],["b","ติดตามสภาพอากาศ"],["c","ตรวจจับการเคลื่อนไหว"],["d","ทั้งหมดข้างต้น"]],a:"d"},
+      {n:65,q:"แนวทางใดที่ IoT ช่วยในการดูแลสุขภาพ?",c:[["a","การตรวจจับอาการของผู้ป่วย"],["b","การวัดระดับน้ำตาลในเลือด"],["c","การติดตามการออกกำลังกาย"],["d","ทั้งหมดข้างต้น"]],a:"d"},
+      {n:66,q:"ในด้านการเกษตร, IoT สามารถช่วยในการทำอะไร?",c:[["a","การสื่อสารระหว่างเกษตรกร"],["b","การติดตามและควบคุมสภาพแวดล้อมของพืช"],["c","การขายผลผลิต"],["d","การสร้างเว็บไซต์สำหรับเกษตรกร"]],a:"b"},
+      {n:67,q:"หลักการด้านความปลอดภัยของข้อมูลใน IoT มีความสำคัญอย่างไร?",c:[["a","เพื่อความสนุก"],["b","ไม่มีความสำคัญ"],["c","เพื่อป้องกันการเข้าถึงข้อมูลโดยไม่ได้รับอนุญาต"],["d","เพื่อเพิ่มความเร็วในการส่งข้อมูล"]],a:"c"},
+      {n:68,q:"การใช้ IoT ในสุขภาพสามารถช่วยอะไรได้บ้าง?",c:[["a","ตรวจจับและติดตามสถานะสุขภาพ"],["b","แก้ปัญหาการจราจร"],["c","เพิ่มความสามารถในการเล่นเกม"],["d","ช่วยในการทำอาหาร"]],a:"a"},
+      {n:69,q:"IoT สามารถช่วยในการจัดการทรัพยากรน้ำอย่างไร?",c:[["a","โดยการปรับปรุงรสชาติของน้ำ"],["b","โดยการตรวจสอบและควบคุมการใช้น้ำ"],["c","โดยการเพิ่มปริมาณน้ำ"],["d","ไม่สามารถช่วยได้"]],a:"b"},
+      {n:70,q:"การทำงานร่วมกันของอุปกรณ์ใน IoT มีความสำคัญเพื่ออะไร?",c:[["a","เพื่อเพิ่มความสวยงาม"],["b","เพื่อการสื่อสารที่ราบรื่นและการทำงานที่เหมาะสม"],["c","เพื่อการแข่งขันกับเทคโนโลยีอื่น ๆ"],["d","ไม่มีความสำคัญ"]],a:"b"},
+      {n:71,q:"IoT สามารถช่วยลดผลกระทบต่อสิ่งแวดล้อมได้อย่างไร?",c:[["a","โดยการเพิ่มการใช้พลังงาน"],["b","โดยการส่งเสริมการใช้สารพิษ"],["c","โดยการช่วยในการจัดการทรัพยากรอย่างมีประสิทธิภาพ"],["d","ไม่สามารถช่วยได้"]],a:"c"},
+      {n:72,q:"การใช้งาน IoT ในโรงงานสมัยใหม่ช่วยอย่างไร?",c:[["a","เพิ่มความยากลำบากในการผลิต"],["b","ลดความเร็วในการผลิต"],["c","เพิ่มประสิทธิภาพและการตรวจสอบกระบวนการผลิต"],["d","ไม่มีผลกระทบ"]],a:"c"},
+      {n:73,q:"การที่อุปกรณ์ IoT สามารถ \"พูดคุย\" กันได้หมายถึงอะไร?",c:[["a","การสื่อสารด้วยเสียง"],["b","การส่งข้อมูลระหว่างอุปกรณ์"],["c","การใช้งานเทคโนโลยี AI"],["d","การเชื่อมต่อด้วยสาย"]],a:"b"},
+      {n:74,q:"IoT ย่อมาจากคำว่าอะไร?",c:[["a","Internet of Technical Things"],["b","Internet of Transferred Things"],["c","Internet of Things"],["d","Internal of Things"]],a:"c"},
+      {n:75,q:"'คลาวด์' ในระบบ IoT มีหน้าที่อะไร?",c:[["a","ประมวลผลข้อมูล"],["b","จัดเก็บและเป็นหน่วยวิเคราะห์ข้อมูล"],["c","ส่งข้อมูลไปยังอุปกรณ์ IoT"],["d","สร้างสัญญาณไร้สาย"]],a:"b"},
+      {n:76,q:"ข้อใด คือ เป้าหมายของการทำ Prototype",c:[["a","เพื่อวิเคราะห์แนวคิดผลิตภัณฑ์ที่คิดขึ้นมา"],["b","เพื่อค้นคว้าหรือต่อยอดแนวคิดผลิตภัณฑ์ของเรา"],["c","เพื่อสื่อสารแนวคิดผลิตภัณฑ์ให้ผู้ใช้งาน"],["d","ถูกทุกข้อ"]],a:"d"},
+      {n:77,q:"ข้อใด คือ เหตุผลที่ทำไมเราต้องทำ Prototype ก่อนเริ่มพัฒนา Product หรือ ผลิตภัณฑ์จริง",c:[["a","เพราะเป็นการช่วยลดต้นทุน"],["b","เพราะจะช่วยให้เราผลิต Product หรือ ผลิตภัณฑ์ออกสู่ตลาดได้เร็วกว่าคู่แข่ง"],["c","เพราะจะช่วยให้เรามั่นใจได้ระดับนึงว่าเมื่อเราลงทุนลงแรงไปแล้ว จะมีผู้ใช้งานผลิตภัณฑ์ของเรา"],["d","เพราะจะช่วยให้เราทำผลิตภัณฑ์ไปได้อย่างมีจุดหมาย ไม่หลงทาง"]],a:"c"},
+      {n:78,q:"ประเภทของ Prototype ในข้อใด มีรายละเอียดที่เสมือนจริงและทำให้ผู้ใช้งานเห็นภาพรวมการใช้งานมากที่สุด",c:[["a","Low-fidelity Prototype"],["b","High-fidelity Prototype"],["c","Mid-fidelity Prototype"],["d","Clickable and Functional Prototype"]],a:"d"},
+      {n:79,q:"จงเรียงลำดับขั้นตอนในกระบวนการ Design Thinking",c:[["a","Ideate > Empathize > Define > Prototype > Test"],["b","Ideate > Empathize > Define > Test > Prototype"],["c","Empathize > Define > Ideate > Prototype > Test"],["d","Empathize > Ideate > Define > Prototype > Test"]],a:"c"},
+      {n:80,q:"ในกระบวนการ Design Thinking ขั้นตอนใดบ้างจัดเป็นส่วนการค้นหาปัญหาของผู้ใช้งาน หรือจัดเป็นขั้นตอนก่อนลงมือสร้าง Prototype (Pre-Prototyping Design Process)",c:[["a","Empathize, Define และ Ideate"],["b","Empathize, Define และ Prototype"],["c","Ideate, Define และ Prototype"],["d","Ideate, Define และ Test"]],a:"a"},
+      {n:81,q:"ในกระบวนการ Empathize ข้อใด คือ วิธีการทำความเข้าใจความต้องการของผู้ใช้งาน",c:[["a","การพูดคุยกับกลุ่มผู้ใช้งาน"],["b","การส่งแบบสอบถามออนไลน์ ให้ผู้ใช้งานกรอกแบบสอบถาม"],["c","การสร้าง Persona"],["d","ถูกทุกข้อ"]],a:"d"},
+      {n:82,q:"ในกระบวนการ Define เกี่ยวข้องกับการทำอะไร",c:[["a","การกำหนดฟังก์ชันการใช้งานของเว็บไซต์"],["b","การทดสอบ Prototype"],["c","การสร้าง Persona"],["d","การสร้าง Wireframe"]],a:"a"},
+      {n:83,q:"ในกระบวนการ Ideation เป็นขั้นตอนที่มีจุดประสงค์เพื่อทำอะไร",c:[["a","เพื่อสร้าง Prototype ใน Google Slide"],["b","เพื่อกำหนดลักษณะเว็บไซต์"],["c","เพื่อคิดค้นแนวคิดการพัฒนาเว็บไซต์"],["d","เพื่อทดสอบ Prototype กับผู้ใช้งาน"]],a:"c"},
+      {n:84,q:"ในกระบวนการทำ Prototype ควรเน้นการทำ Prototype ในส่วนใดของหน้าเว็บไซต์",c:[["a","ส่วนที่เกี่ยวข้องกับสมมติฐานที่ตั้งไว้"],["b","ส่วนที่ต้องการแสดงความสวยงามของหน้าตาเว็บไซต์"],["c","ส่วนที่เป็นเป้าหมายของการทำเว็บไซต์"],["d","ถูกทั้งข้อ 1) และ 3) (ส่วนที่เกี่ยวข้องกับสมมติฐานที่ตั้งไว้ และส่วนที่เป็นเป้าหมายของการทำเว็บไซต์)"]],a:"d",refPair:["a","c","ถูกทั้งข้อ {0} และ {1} (ส่วนที่เกี่ยวข้องกับสมมติฐานที่ตั้งไว้ และส่วนที่เป็นเป้าหมายของการทำเว็บไซต์)"]},
+      {n:85,q:"ข้อใด คือ ปัญหาที่สามารถแก้ไขได้โดยการทำ Pagination",c:[["a","ความช้าของอินเทอร์เน็ตในการเข้าถึงเว็บไซต์"],["b","ข้อมูลในเว็บไซต์ที่มีมากเกินไปในหน้าเดียว"],["c","ความล้าสมัยของหน้าตาเว็บไซต์"],["d","เว็บไซต์มีขนาดและสีของตัวอักษรที่อ่านยากเกินไป"]],a:"b"},
+      {n:86,q:"ข้อใด ไม่ใช่ เครื่องมือที่สามารถใช้ทำ Prototype นอกเหนือจาก Google Slide",c:[["a","Figjam"],["b","Figma"],["c","Marvel"],["d","ทุกข้อเป็นเครื่องมือที่สามารถใช้ทำ Prototype"]],a:"a"},
+      {n:87,q:"เหตุใดเราควรกำหนดโจทย์การใช้งานที่ครอบคลุมฟังก์ชันที่ต้องการทดสอบทั้งหมดก่อนไปทำการทดสอบ Prototype (Prototype Testing)",c:[["a","เพื่อให้ผู้ใช้งานรู้ว่าเขาต้องทำอะไรบ้าง หรือมีขั้นตอนอะไรที่เขาต้องให้สำเร็จบ้างในการทดสอบครั้งนี้"],["b","เพื่อให้ผู้ใช้งานได้รู้ว่าเว็บไซต์หรือแอปพลิเคชั่นของเรามีฟังก์ชั่นอะไรบ้างและสามารถทำอะไรได้บ้าง"],["c","เพื่อให้ผู้ใช้งานเห็นหน้าตาความสวยงามของ Prototype ที่เราทำมาครบทุกฟังก์ชัน"],["d","ถูกทุกข้อ"]],a:"a"},
+      {n:88,q:"ข้อใด คือ สิ่งที่ควรทำในขั้นตอนการทดสอบ Prototype (Prototype Testing)",c:[["a","ให้ทีมงานเข้าไปพูดคุยกับผู้ใช้งานเพียง 1-2 คน เพื่อลดความตื่นเต้นของผู้ทดสอบ"],["b","ต้องดูพฤติกรรมของผู้ใช้งานอย่างละเอียดว่าติดปัญหาการใช้งานตรงไหนบ้าง"],["c","สังเกตและรับฟังความคิดเห็นของผู้ใช้งานโดยไม่ชี้นำ"],["d","ถูกทุกข้อ"]],a:"d"},
+      {n:89,q:"ข้อใด คือ ขั้นตอนหลังการสร้าง Prototype (Post-Prototyping Design Process)",c:[["a","พัฒนาออกแบบเป็นหน้าเว็บไซต์ให้มีความเสมือนจริงมากที่สุดในทุก ๆ หน้าเพื่อส่งต่อให้ทาง Developer"],["b","สรุปผลการทดสอบ Prototype และส่งต่อให้ทาง Developer ไปดำเนินการแก้ไขตามผลการทดสอบต่อไป"],["c","นำเสนอผลการทดสอบ Prototype ให้ทีมผู้บริหาร หุ้นส่วน หรือผู้มีอำนาจตัดสินใจ เพื่อพิจารณาว่าหน้าตาเว็บไซต์ควรปรับแก้ไปในทิศทางใด"],["d","กลับไปทำกระบวนการ Design Thinking ใหม่อีกครั้ง เนื่องจากผลทดสอบ Prototype ไม่เป็นไปตามที่ทีมอยากให้เป็น"]],a:"b"},
+      {n:90,q:"ข้อใดกล่าวไม่ถูกต้องเกี่ยวกับ Python",c:[["a","Python เป็น General-purpose programming language"],["b","Python เป็น Multi-paradigm programming language"],["c","Python จัดเป็น Low-level language"],["d","ไม่มีข้อใดผิด"]],a:"c"},
+      {n:91,q:"ข้อใดกล่าวไม่ถูกต้องเกี่ยวกับตัวแปลภาษา",c:[["a","Compiler จะแปล code ทั้งโปรแกรมในทีเดียวไปเป็น Machine Language"],["b","Interpreter จะแปล code ทีละคำสั่งไปเป็น Machine Language"],["c","Interpreter จะแปล code ทั้งโปรแกรมในทีเดียวไปเป็น Machine Language"],["d","Python เป็นภาษาชนิด Interpreter"]],a:"c"},
+      {n:92,q:"Byte code ของ python (.pyo/.pyc) จะถูก execute ที่ใด",c:[["a","CPU"],["b","Virtual machine"],["c","ถูกทั้ง a. และ b."],["d","ผิดทั้ง a. และ b."]],a:"b",refAB:true},
+      {n:93,q:"Dynamically-typed language หมายความว่าอะไร",c:[["a","ประเภทของตัวแปรถูกตัดสินตอน Run-Time จึงไม่ต้องกำหนดประเภทของตัวแปรก่อนใช้งาน"],["b","ประเภทของตัวแปรถูกตัดสินตอน Run-Time จึงต้องกำหนดประเภทของตัวแปรก่อนใช้งานเสมอ"],["c","ประเภทของตัวแปรถูกตัดสินก่อน Run-Time จึงต้องกำหนดประเภทของตัวแปรก่อนใช้งานเสมอ"],["d","ประเภทของตัวแปรถูกตัดสินก่อน Run-Time จึงไม่ต้องกำหนดประเภทของตัวแปรก่อนใช้งาน"]],a:"a"},
+      {n:94,q:"ข้อใดกล่าวถูกต้องเกี่ยวกับการเขียนโปรแกรมด้วย Python",c:[["a","หากเขียนด้วย Interactive mode จะสามารถเห็นผลลัพธ์ได้ทันที"],["b","Script mode จะรองรับคำสั่งเก็บไว้ใน file เพื่อให้ Python ได้ทำงานทีเดียว"],["c","IDLE และ Jupyter notebook จัดเป็น IDE"],["d","ถูกทุกข้อ"]],a:"d"},
+      {n:95,q:"ข้อใดเป็นความสามารถของ Jupyter Notebook",c:[["a","แสดงเนื้อหาที่มีการจัดรูปแบบเช่น ตัวหนา ตัวเอียง"],["b","แปลและรันโปรแกรมในภาษาคอมพิวเตอร์หลายภาษา"],["c","ถูกทั้ง a. และ b."],["d","ผิดทั้ง a. และ b."]],a:"c",refAB:true},
+      {n:96,q:"โปรแกรม Python ต่อไปนี้ให้ผลลัพธ์อะไร",code:"print(\"Hello\")\n   print(\"World\")\nprint(\"FromJupyter\")",c:[["a","แสดงข้อความ 3 ข้อความ ได้แก่ Hello, World, และ FromJupyter ข้อความละบรรทัด"],["b","แสดงข้อความ HelloWorldFromJupyter ในบรรทัดเดียว"],["c","แสดงข้อความ Hello World FromJupyter ในบรรทัดเดียว"],["d","โปรแกรมเกิด error"]],a:"d"},
+      {n:97,q:"ข้อใดกล่าวถูกต้องเกี่ยวกับ data type",c:[["a","ภาษาคอมพิวเตอร์ทุกภาษารองรับจำนวนและความหลากหลายของ Data type เหมือน ๆ กัน"],["b","การเลือกใช้ Data type ที่เหมาะสมไม่ได้มีส่วนช่วยป้องกันการทำงานผิดพลาดของโปรแกรม แต่ช่วยให้ประสิทธิภาพการทำงานเร็วขึ้น"],["c","ภาษา Python มีการนิยาม Data type พื้นฐานไว้เพื่อรองรับตัวเลข ข้อความ และ ค่าความจริงเท่านั้น"],["d","Python สามารถตีความ Data type ประเภทตัวเลขและข้อความได้จากรูปแบบข้อมูลที่เราพิมพ์ในโปรแกรม"]],a:"d"},
+      {n:98,q:"จงประมวลผลค่า expression (ในภาษา Python) ต่อไปนี้ 5 + 1 ** 2 / 2",c:[["a","18.0"],["b","5.0"],["c","5.5"],["d","6.0"]],a:"c"},
+      {n:99,q:"ข้อใดเกิด implicit data type conversion และผลลัพธ์มี data type ใด",c:[["a","4.0 + 4.0 ผลลัพธ์เป็น int"],["b","4.0 + 4.5 ผลลัพธ์เป็น float"],["c","3 + 4.0 ผลลัพธ์เป็น float"],["d","3 + 4.0 ผลลัพธ์เป็น int"]],a:"c"},
+      {n:100,q:"กำหนดให้ S = 'Dog' ข้อใดคือผลลัพธ์ของ S[:1].find('g')",c:[["a","-1"],["b","0"],["c","2"],["d","3"]],a:"a"},
+      {n:101,q:"ข้อใดกล่าวไม่ถูกต้องเกี่ยวกับ while loop",c:[["a","while loop จะทำตามคำสั่งใน loop เมื่อเงื่อนไขเป็นจริง"],["b","while loop เป็น definite loop"],["c","while loop ต้องมี iteration variable เพื่อให้สามารถหลุดออกจาก loop ได้"],["d","ไม่มีข้อใดผิด"]],a:"b"},
+      {n:102,q:"ข้อใดถูกสำหรับ dictionary",c:[["a","dictionary ไม่สามารถเก็บค่าที่เป็น list หรือ tuple ได้"],["b","dictionary สามารถมี key ชื่อซ้ำกันได้มากกว่า 1 key"],["c","dictionary สามารถเก็บค่า dictionary object อื่นได้ (nested dictionary)"],["d","ผิดทุกข้อ"]],a:"c"},
+      {n:103,q:"ข้อใดคือประโยชน์ของการเปิดไฟล์ด้วย keyword with",c:[["a","ไม่ต้องเรียกฟังก์ชั่น file.close() เพื่อปิดไฟล์ที่เปิดไว้ หลังจากออกจาก block ของ with แล้ว"],["b","ใน block ของ with ฟังก์ชั่น readline() จะวน loop อ่านทีละบรรทัดในไฟล์ ให้โดยอัตโนมัติ และเมื่ออ่านจนสุดไฟล์แล้ว ก็จะทำการออกจาก block ของ with โดยอัตโนมัติ"],["c","ถูกทั้งข้อ a. และ b."],["d","ผิดทั้งข้อ a. และ b."]],a:"a",refAB:true},
+      {n:104,q:"จากคำสั่ง import random นั้น Python จะไปหา module ที่ชื่อ random จากตำแหน่งใดในระบบไฟล์บนเครื่อง เป็นลำดับแรก",c:[["a","site-package folder ที่เป็นที่เก็บ python library files ภายใต้ python installed folder"],["b","current directory"],["c","folder ที่ถูก set ให้อยู่ใน PYTHONPATH environment variable"],["d","folder ที่ python ถูก installed อยู่ ณ ปัจจุบัน"]],a:"b"},
+      {n:105,q:"ข้อใดเป็นกรณีที่เหมาะสมกับการใช้งานของ Lambda function",c:[["a","เป็นฟังก์ชั่นที่ซับซ้อนที่ต้อง implement ด้วยหลาย statements"],["b","ต้องการเรียกใช้อีกหลายครั้ง (reuse)"],["c","ต้องการใช้เพียงครั้งเดียว"],["d","ต้องการแชร์ใช้กับหลาย modules"]],a:"c"},
+      {n:106,q:"ข้อใดเป็นเว็บสำหรับติดตั้ง Python และ Jupyter notebook",c:[["a","Python.org"],["b","Jupyter.org"],["c","ถูกทั้ง a. และ b."],["d","ผิดทุกข้อ"]],a:"c",refAB:true},
+      {n:107,q:"Python ที่จะใช้ในการเรียนการสอนนี้เป็น python version ใด",c:[["a","Python 1"],["b","Python 2"],["c","Python 3"],["d","Python 4"]],a:"c"},
+      {n:108,q:"ข้อใดกล่าวผิดเกี่ยวกับการเปิด jupyter notebook",c:[["a","เปิดผ่าน command prompt หรือ terminal"],["b","ใน command prompt หรือ terminal พิมพ์คำสั่ง jupyter notebook"],["c","pip install notebook เป็นคำสั่งสำหรับเปิด jupyter notebook"],["d","กด control + c เพื่อ shutdown jupyter notebook server"]],a:"c"},
+      {n:109,q:"PyPI คืออะไร",c:[["a","Python Package Index"],["b","คลังรวบรวม libraries ต่าง ๆ ของ python"],["c","คู่มือการใช้ python"],["d","ถูกทั้ง a. และ b."]],a:"d",refAB:true},
+      {n:110,q:"หากต้องการระบุว่าให้เรียกใช้ module จาก python3 ต้องใช้คำสั่งใด",c:[["a","python3 -m"],["b","m-python3"],["c","python3 -md"],["d","python3 -dm"]],a:"a"},
+      {n:111,q:"ข้อใดบรรยาย Jupyter notebook ได้ถูกต้องที่สุด",c:[["a","Jupyter notebook เป็นโปรแกรมประเภท Word processor ทางเลือกที่ไม่มีค่าใช้จ่ายในการใช้งาน"],["b","Jupyter notebook เป็นโปรแกรมแปลภาษา Python ที่ทำงานบนระบบปฏิบัติการ Windows"],["c","Jupyter notebook เป็นโปรแกรมที่ให้เราสามารถเขียนโปรแกรมและเนื้อความอื่น ๆ ผ่านส่วนติดต่อผู้ใช้บน Web browser"],["d","Jupyter notebook เป็นโปรแกรมที่จำเป็นในการเขียนโปรแกรมภาษา Python แบบ Interactive"]],a:"c"},
+      {n:112,q:"สมุดโน้ตใน Jupyter notebook ถูกบันทึกในไฟล์นามสกุลใด",c:[["a",".jupyter"],["b",".txt"],["c",".ipynb"],["d",".py"]],a:"c"},
+      {n:113,q:"อะไรเป็นหัวใจหลักที่ทำให้ Jupyter notebook เข้าใจภาษาโปรแกรมภาษาต่าง ๆ",c:[["a","ไฟล์ config"],["b","Ipython"],["c","Python"],["d","Kernel"]],a:"d"},
+      {n:114,q:"cell ประเภทใดใน Jupyter notebook ที่เหมาะสมในการเขียนบรรยายเนื้อหา",c:[["a","Descriptive Cell"],["b","Code cell"],["c","Text cell"],["d","Markdown cell"]],a:"d"},
+      {n:115,q:"Code cell ใน Jupyter notebook มีไว้สำหรับงานใด",c:[["a","เขียนโปรแกรม"],["b","บรรยายเนื้อหา"],["c","การปิดบังเนื้อความที่เป็นความลับ"],["d","คัดลอกเนื้อความจาก Cell อื่น"]],a:"a"},
+      {n:116,q:"ถ้าสมุดโน้ต ณ ตอนนี้มี 3 cell และ cell ปัจจุบันอยู่ที่ cell ท้ายสุด หลังจากที่รัน cell ปัจจุบันด้วยการกดปุ่ม Shift+Enter สมุดโน้ตจะมีกี่ cell",c:[["a","5"],["b","4"],["c","2"],["d","3"]],a:"b"},
+      {n:117,q:"สัญลักษณ์ใดใช้ markdown ข้อความที่เป็นหัวข้อเรื่อง",c:[["a","*"],["b","**"],["c","|--|--|"],["d","###"]],a:"d"},
+      {n:118,q:"หากต้องการแสดง block ของโค้ดใน Markdown cell เราสามารถทำได้อย่างไร",c:[["a","เราไม่สามารถแสดงโค้ดใน Markdown cell ได้"],["b","ใส่เครื่องหมาย * จำนวนเท่ากันในส่วนต้นของบรรทัดของโค้ดที่อยู่ใน Block เดียวกัน"],["c","ใส่ space จำนวนเท่ากันแต่ต้องอย่างน้อย 4 ตัวในส่วนต้นของบรรทัดของโค้ดที่อยู่ใน Block เดียวกัน"],["d","ใส่เครื่องหมาย - และตามด้วยเว้นวรรคในส่วนต้นของบรรทัดของโค้ดที่อยู่ใน Block เดียวกัน"]],a:"c"},
+      {n:119,q:"ข้อใดเป็นคีย์ลัดที่ใช้ในการเปลี่ยนประเภทของ cell ขณะอยู่ใน Command mode",c:[["a","Enter, Esc"],["b","ปุ่มลูกศรขึ้นลง"],["c","Shift + Enter"],["d","m, y"]],a:"d"},
+      {n:120,q:"การ Debug หมายถึงอะไร",c:[["a","การออกแบบขั้นตอนการทำงานของโปรแกรม"],["b","การเรียนรู้ไวยากรณ์ของภาษาโปรแกรม"],["c","การรันโปรแกรมด้วย Kernel"],["d","การแก้ไขข้อผิดพลาดของโปรแกรม"]],a:"d"},
+      {n:121,q:"ภาษาโปรแกรมที่มีสมบัติ case sensitive มีลักษณะอย่างไร",c:[["a","มีการรองรับการพิจารณาเงื่อนไขเพื่อเลือกเส้นทางการทำงานของโปรแกรม"],["b","มีความซับซ้อนในการทำงานในระดับที่สูง"],["c","ตีความ lowercase letter และ uppercase letter ของอักษรภาษาอังกฤษตัวเดียวกันแตกต่างกัน"],["d","จำนวนบรรทัดของโปรแกรมส่งผลต่อประสิทธิภาพการทำงานของโปรแกรม"]],a:"c"},
+      {n:122,q:"เมื่อรันโปรแกรมต่อไปนี้จะเกิด Error อะไรขึ้น",code:"print(\"Hello A\")\nprint(\"Hello B\")\nPrint(\"Hello C\")",c:[["a","name 'Print' is not defined"],["b","unexpected indent"],["c","type mismatched"],["d","ไม่เกิดข้อผิดพลาดใด ๆ"]],a:"a"},
+      {n:123,q:"ข้อใดไม่ใช่ data type สำหรับตัวเลขในภาษา Python",c:[["a","int"],["b","complex"],["c","num"],["d","float"]],a:"c"},
+      {n:124,q:"ข้อใดเป็น data type ในภาษา Python ที่ใช้สำหรับข้อความ และ ค่าความจริง",c:[["a","str, bool"],["b","String, True"],["c","Str, Boolean"],["d","String, Boolean"]],a:"a"},
+      {n:125,q:"ข้อใดกล่าวถูกต้องเกี่ยวกับตัวแปร",c:[["a","ในสมุดโน้ตเล่มเดียวกัน เราสามารถใช้ค่าของตัวแปรข้าม cell ได้"],["b","ค่าที่ถูก assign ให้กับตัวแปรจะยังคงถูกเก็บรักษาไว้หลังจากปิดโปรแกรม Jupyter notebook"],["c","ในภาษา Python เราต้องสร้างตัวแปรใน statement หนึ่งก่อน ที่จะสามารถ assign ค่าให้ตัวแปรนั้นในอีก statement หนึ่งได้"],["d","ตัวแปรที่เก็บค่าประเภทตัวเลขจะไม่สามารถนำไปเก็บค่าข้อความในภายหลังได้"]],a:"a"},
+      {n:126,q:"ข้อใดเป็น statement ที่ถูกต้องในการ assign ค่าให้กับตัวแปร",c:[["a","a , b = 1"],["b","a = 1, b = 1"],["c","a = 1 = b"],["d","a = b = 1"]],a:"d"},
+      {n:127,q:"ข้อใดเป็นชื่อตัวแปรที่สามารถใช้ได้ในภาษา Python",c:[["a","1_or_2"],["b","one_or_2"],["c","one-or-two"],["d","Val-1-2"]],a:"b"},
+      {n:128,q:"ข้อใดเป็นการแสดงผลของ print( 5 ** -1 )",c:[["a","5"],["b","-5"],["c","0.2"],["d","0"]],a:"c"},
+      {n:129,q:"ข้อใดเป็นการแสดงผลของ print( 13 // 2 )",c:[["a","1"],["b","6"],["c","6.5"],["d","7"]],a:"b"},
+      {n:130,q:"ข้อใดเป็นผลลัพธ์ของโปรแกรมต่อไปนี้",code:"x = 3\nx *= 2\nprint(x)",c:[["a","2"],["b","5"],["c","6"],["d","9"]],a:"c"},
+      {n:131,q:"ข้อใดเป็น expression ในภาษา Python",c:[["a","\"3 + 5\""],["b","3 + 5"],["c","print( 3 + 5 )"],["d","เป็น Expression ทุกข้อ"]],a:"d"},
+      {n:132,q:"อะไรเป็นตัวกำหนดลำดับก่อนหลังของการดำเนินการ operator ในกรณีที่มีหลายตัว",c:[["a","ค่า precedence ของ operator"],["b","ค่า precedence ของ operand"],["c","ค่าของ operand สำหรับแต่ละ operator"],["d","ลำดับการวาง operator ใน expression"]],a:"a"},
+      {n:133,q:"จงประมวลผลค่า expression ต่อไปนี้ 3 + 1 ** 2 / 2",c:[["a","4.0"],["b","8.0"],["c","3.0"],["d","3.5"]],a:"d"},
+      {n:134,q:"จงประมวลผลค่า expression ต่อไปนี้ not not (3 > 5) == True",c:[["a","5"],["b","False"],["c","3"],["d","True"]],a:"b"},
+      {n:135,q:"ข้อใดกล่าวถูกต้องเกี่ยวกับ function",c:[["a","เราสามารถสร้าง built-in function ได้ใน Jupyter Notebook"],["b","เราสามารถเรียกใช้ built-in function ได้โดยไม่ต้องสร้าง function เหล่านั้นขึ้นมาเอง"],["c","function เป็น data type ประเภทหนึ่งในภาษา Python"],["d","ถูกทุกข้อ"]],a:"b"},
+      {n:136,q:"statement ใดเป็นการเรียกใช้ function",c:[["a","x = (x + 1)"],["b","x = abs(x)"],["c","x **= x"],["d","x = abs.x"]],a:"b"},
+      {n:137,q:"ข้อใดเป็นการระบุค่า argument ของ pow() แบบ Positional และผลลัพธ์ที่สอดคล้องกับมันเป็นเท่าใด",c:[["a","pow( base = 3, exp = 2) ผลลัพธ์เป็น 9"],["b","pow( exp = 3, base = 2) ผลลัพธ์เป็น 8"],["c","pow( 2 , 3 ) ผลลัพธ์เป็น 9"],["d","pow( 2 , 3 ) ผลลัพธ์เป็น 8"]],a:"d"},
+      {n:138,q:"ให้ function func1() มี definition ส่วนหัวเป็น func1( arg1 , arg2 , *arg3) ในการเรียกใช้ func1() จะต้องมีการใส่ argument จำนวนกี่ค่า",c:[["a","3 ค่า"],["b","อย่างน้อย 3 ค่า"],["c","ตั้งแต่ 2 ค่าขึ้นไป"],["d","กี่ค่าก็ได้"]],a:"c"},
+      {n:139,q:"ให้ function func2() มี definition ส่วนหัวเป็น func2( *arg1 , arg2 = True ) ในการเรียกใช้ func2() จะต้องมีการใส่ argument จำนวนกี่ค่า",c:[["a","1 ค่า"],["b","2 ค่า"],["c","อย่างน้อย 1 ค่า"],["d","กี่ค่าก็ได้"]],a:"d"},
+      {n:140,q:"ถ้าสมุดโน้ต ณ ตอนนี้มี 5 cell และ cell ปัจจุบันอยู่ที่ cell รองสุดท้าย หลังจากที่รัน cell ปัจจุบันด้วยการกดปุ่ม Shift+Enter สมุดโน้ตจะมีกี่ cell",c:[["a","4"],["b","5"],["c","6"],["d","7"]],a:"b"},
+      {n:141,q:"ข้อใดเป็นผลลัพธ์ของโปรแกรมต่อไปนี้",code:"x = 2\ny = 4\ny /= x\nprint(y)",c:[["a","2"],["b","2.0"],["c","4"],["d","4.0"]],a:"b"},
+      {n:142,q:"expression 4 + - 1 * 4 / 2 ** 2 มีค่าเท่ากับเท่าใด",c:[["a","0.0"],["b","3.0"],["c","36.0"],["d","ไม่มีข้อถูก"]],a:"b"},
+      {n:143,q:"ผลลัพธ์เมื่อรัน print(type(\"34\" + 3)) คือข้อใด",c:[["a","343"],["b","<class 'int'>"],["c","<class 'str'>"],["d","เกิด error"]],a:"d"},
+      {n:144,q:"หลังจากรันโปรแกรมต่อไปนี้ ค่า x จะมีค่าเท่ากับปริมาณใด",code:"x = 0\nfor i in range(1,1000,2):\n    if i%2 == 0:\n        x += i",c:[["a","ค่า x ในบรรทัดแรกของโปรแกรม"],["b","ผลรวมของจำนวนเต็มบวกทั้งหมดที่ไม่เกิน 1,000"],["c","ผลรวมของจำนวนเต็มบวกเลขคู่ที่ไม่เกิน 1,000"],["d","ผลรวมของจำนวนเต็มบวกเลขคี่ที่ไม่เกิน 1,000"]],a:"a"},
+      {n:145,q:"โปรแกรมต่อไปนี้ให้ผลลัพธ์อะไร",code:"x = 1\ny = 1000\nwhile x <= y:\n    if abs(x-y) > 500:\n        y = 100\n        continue\n    elif abs(x-y) > 10:\n        y = 5\n        continue\n    else:\n        y -= 1\n    x += 1\nprint(x)",c:[["a","3"],["b","4"],["c","250"],["d","500"]],a:"b"},
+      {n:146,q:"ข้อใดถูกต้อง",c:[["a","Python list เป็น immutable"],["b","Python list มี items ที่เป็นข้อมูลประเภท list ปนกับข้อมูลประเภทอื่นได้"],["c","ลำดับของ items ใน list ไม่สำคัญ"],["d","Python list ไม่รองรับการทำ iteration"]],a:"b"},
+      {n:147,q:"ข้อใดถูกสำหรับ Python Set",c:[["a","เป็น unordered data collection"],["b","มี items ที่มีค่าซ้ำกันได้"],["c","เป็น immutable data collection"],["d","ถูกทุกข้อ"]],a:"a"},
+      {n:148,q:"ข้อใดถูกต้อง ถ้ารันคำสั่ง t1 = tuple('1234')",c:[["a","t1 จะมี item เดียว"],["b","t1 จะมี length เท่ากับ 4 เนื่องจาก 'text' มีความยาว 4"],["c","t1 จะมี 4 items ที่มีค่า 1, 2, 3 และ 4"],["d","t1 จะมี 4 items ที่มีค่า '1', '2', '3' และ '4'"]],a:"d"},
+      {n:149,q:"ให้ product เป็น dictionary ที่มีค่า {'id': 'P123', 'name': 'watch', 'price': 5000} ถ้าต้องการเพิ่ม 'color' เป็นอีก key หนึ่ง ที่มีค่า 'silver' ต้องเขียน code อย่างไร",c:[["a","product.add('color', 'silver')"],["b","product.update('color', 'silver')"],["c","product['color'] = 'silver'"],["d","ถูกทุกข้อ"]],a:"c"},
+      {n:150,q:"ข้อใดไม่ใช่ประโยชน์ของ Functions",c:[["a","Reuseability"],["b","Modularity"],["c","Availability"],["d","Maintainability"]],a:"c"},
+      {n:151,q:"จากฟังก์ชั่นที่มีกำหนด function signature ไว้ดังนี้ def create_customer(first_name, last_name, age, is_new_customer=True, **kwargs): ข้อใดทำให้เกิด error จากการเรียกใช้ฟังก์ชั่น create_customer นี้",c:[["a","create_customer('David', last_name='Berry', age=25, title='Mr.')"],["b","create_customer('David', last_name='Berry', title='Mr.', occupation='programmer')"],["c","create_customer('David', last_name='Berry', age=30, is_new_customer=False)"],["d","create_customer('David', 'Berry', 30, False)"]],a:"b"},
+      {n:152,q:"โปรแกรมต่อไปนี้ให้ผลลัพธ์อะไร",code:"coor = [(1,2),(2,4),(3,6),(4,9)]\nprint(list(map(lambda i: i[1]==2*i[0] ,coor)))",c:[["a","False"],["b","[(1,2,3,4)]"],["c","[(1,2,3,4,6,9)]"],["d","[True, True, True, False]"]],a:"d"},
+      {n:153,q:"ข้อใดคือลำดับขั้น scope ของ modules ใน Python จากใหญ่ไปเล็กที่ถูกต้อง",c:[["a","Class -> Function -> Package"],["b","Package -> Python File -> Function"],["c","Package -> Class/Function -> Python File"],["d","Function -> Class -> Variable"]],a:"b"},
+      {n:154,q:"อุปกรณ์ IoT แตกต่างจากสมาร์ทโฟน (smart phone) ในแง่ใดเด่นชัดที่สุด",c:[["a","รูปร่างหน้าตา"],["b","การมี Intelligence ในอุปกรณ์"],["c","สามารถตรวจจับปริมาณทางกายภาพ"],["d","การรับส่งข้อมูลผ่านอินเทอร์เน็ต"]],a:"a"},
+      {n:155,q:"ข้อใด ไม่ใช่ ปัจจัยที่ส่งเสริมความแพร่หลายของการใช้ IoT",c:[["a","ประชาชนมีทางเลือกของสมาร์ตโฟน (smart phone) มากขึ้น"],["b","ราคาอุปกรณ์อิเล็กทรอนิกส์ถูกลง"],["c","แบนด์วิดธ์ (bandwidth) ของการสื่อสารมากขึ้น"],["d","ชิ้นส่วนอิเล็กทรอนิกส์กินไฟน้อยลง"]],a:"a"},
+      {n:156,q:"ข้อใดสอดคล้องกับระบบ IoT ที่สุด",c:[["a","เครือข่ายที่เชื่อมโยงอุปกรณ์แต่ละชิ้นที่ระบุเจาะจงได้ผ่านอินเทอร์เน็ต"],["b","อุปกรณ์ในชีวิตประจำวันที่มีสมองกลฝังตัวที่ทำให้มีความสามารถการประมวลผลแบบคอมพิวเตอร์"],["c","ระบบการทำงานร่วมกันของเครื่องคอมพิวเตอร์ขนาดเล็กและราคาถูก"],["d","แอปพลิเคชันที่ทำงานโดยอาศัยเครื่องแม่ข่ายในระบบอินเทอร์เน็ต"]],a:"a"},
+      {n:157,q:"อะไรเป็นสิ่งที่ทำให้สามารถระบุตำแหน่งบนอินเทอร์เน็ตของอุปกรณ์ IoT แต่ละชิ้นได้",c:[["a","IP Address"],["b","Web Browser"],["c","HTTP Protocol"],["d","HTTP Request"]],a:"a"},
+      {n:158,q:"อะไรเป็นข้อตกลงในการสื่อสารกันระหว่างอุปกรณ์",c:[["a","Protocol"],["b","IP Address"],["c","Intelligence"],["d","Sensors"]],a:"a"},
+      {n:159,q:"เมื่อโปรแกรม web browser โหลดหน้าเว็บ ค่า _____ ที่ผู้ใช้พิมพ์ใน address bar ของ web browser จะถูกแปลงเป็น _____ อันเป็นจุดหมายปลายทางให้ web browser ส่ง _____ ไปยังปลายทางนั้นด้วยโปรโตคอล _____",c:[["a","URL, IP Address, Request, HTTP/HTTPS"],["b","IP Address, Request, HTTP/HTTPS, URL"],["c","Request, IP Address, HTTP/HTTPS, URL"],["d","URL, Request, IP Address, HTTP/HTTPS"]],a:"a"},
+      {n:160,q:"ข้อใดมัก ไม่ใช่ สมบัติที่พึงคาดหวังจากอุปกรณ์ IoT",c:[["a","มีความสามารถในการประมวลผลสูง"],["b","อุปกรณ์ส่วนประมวลผลมีขนาดเล็ก"],["c","ใช้พลังงานน้อยในการทำงาน"],["d","มีราคาถูก"]],a:"a"},
+      {n:161,q:"ข้อใดเป็นตัวอย่างการประยุกต์ความสามารถของ IoT ในงานด้าน Smart City",c:[["a","เซนเซอร์วัดมลพิษทางอากาศจำนวนมากถูกติดตั้ง ณ จุดต่าง ๆ ในเมืองและส่งค่าที่อ่านได้โดยอัตโนมัติกลับไปยังเครื่องแม่ข่ายกลาง"],["b","กล้องจราจรหลายตัวที่สี่แยกส่งภาพตรงไปยังจอภาพในป้อมของตำรวจจราจรเพื่อให้ตำรวจประจำป้อม ณ สี่แยกนั้นเห็นภาพทันกาลที่ทั่วถึง"],["c","วิศวกรควบคุมโดรน (drone) ผ่านวิทยุบังคับ เพื่อถ่ายทอดภาพอาคารที่ชั้นสูง ๆ กลับมายังสำนักงาน พร้อมทั้งจัดทำรายงานประจำวันโดยอัตโนมัติ"],["d","การควบคุมการเข้าออกอาคารของพนักงานที่ทำงานในอาคารนั้นทำโดยการสแกนใบหน้าแทนการอ่านบัตรประจำตัว"]],a:"a"},
+      {n:162,q:"อุปกรณ์ชนิดใดที่มักใช้เพื่อให้ความสามารถในการประมวลผลในอุปกรณ์ IoT",c:[["a","ไมโครคอนโทรลเลอร์ (microcontroller)"],["b","คอมพิวเตอร์แล็ปท็อป (laptop computer) ที่มีความบาง"],["c","ไอแพดหรือคอมพิวเตอร์แท็บเล็ต (tablet computer) รุ่นอื่น ๆ"],["d","สมาร์ทโฟน (smart phone)"]],a:"a"},
+      {n:163,q:"Sensors และ actuators มีหน้าที่อะไร",c:[["a","Sensors ตรวจจับ อ่านค่า หรือ รับค่า ปริมาณทางกายภาพ เช่น อุณหภูมิ การเคลื่อนไหว ส่วน Actuators สร้างการเคลื่อนที่ หรือ ควบคุมการทำงานของเครื่องกลต่าง ๆ"],["b","Sensors สร้างการเคลื่อนที่ หรือ ควบคุมการทำงานของเครื่องกลต่าง ๆ ส่วน Actuators ตรวจจับ อ่านค่า หรือ รับค่า ปริมาณทางกายภาพ เช่น อุณหภูมิ การเคลื่อนไหว"],["c","Sensors ส่งข้อมูลปริมาณทางกายภาพไปยังเครือข่าย เช่น อินเทอร์เน็ต ส่วน Actuators คอยรับข้อมูลจากเครือข่ายเพื่อนำมาประมวลผลในอุปกรณ์ IoT"],["d","Sensors คอยรับข้อมูลจากเครือข่ายเพื่อนำมาประมวลผลในอุปกรณ์ IoT ส่วน Actuators ส่งข้อมูลปริมาณทางกายภาพไปยังเครือข่าย เช่น อินเทอร์เน็ต"]],a:"a"},
+      {n:164,q:"เราควรคาดหวังความสามารถในข้อใดจากอุปกรณ์ IoT",c:[["a","การประมวลผลข้อมูล การอ่านค่าปริมาณทางกายภาพและตอบสนอง การรับส่งข้อมูลกับอุปกรณ์หรือระบบอื่น ๆ"],["b","การประมวลผลข้อมูล การอ่านค่าปริมาณทางกายภาพและตอบสนอง การรับคำสั่งผ่านอินเทอร์เน็ต"],["c","ความสามารถในการเก็บข้อมูลปริมาณมากภายในอุปกรณ์ การอ่านค่าปริมาณทางกายภาพและตอบสนอง การรับส่งข้อมูลกับอุปกรณ์หรือระบบอื่น ๆ"],["d","การประมวลผลข้อมูล ความสามารถในการเก็บข้อมูลปริมาณมากภายในอุปกรณ์ การรับคำสั่งผ่านอินเทอร์เน็ต"]],a:"a"},
+      {n:165,q:"บริการใดช่วยโปรแกรมในการแปลงภาษาธรรมชาติ (เช่น ข้อความในภาษาไทยหรืออังกฤษที่ผู้ใช้พิมพ์ในสไตล์เช่นเดียวกับการพูดคุยกับคนอื่น) เป็นคำสั่งใดคำสั่งหนึ่งที่กำหนดไว้ในโปรแกรม",c:[["a","Dialogflow"],["b","LINE"],["c","Python"],["d","Pygame"]],a:"a"},
+      {n:166,q:"เมื่อเราทำการออกแบบการพัฒนาอุปกรณ์ IoT เราจะต้องคิดถึงรายละเอียดของสิ่งใดเสมอ",c:[["a","Hardware, Software, Communication"],["b","LINE, Dialogflow, Flask"],["c","Sensors, Actuators, Internet"],["d","Python, Raspberry Pi, WiFi"]],a:"a"},
+      {n:167,q:"ไลบรารีใดช่วยให้เราสามารถพัฒนาการรับส่ง HTTP Request ได้โดยง่าย",c:[["a","Flask"],["b","Dialogflow"],["c","Pygame"],["d","Pygame Widgets"]],a:"a"},
+      {n:168,q:"ข้อใด ไม่ใช่ หน้าที่ของ LINE ในโครงงาน Robot Gardener",c:[["a","ส่ง Request คำสั่งของผู้ใช้ไปยังอุปกรณ์ IoT"],["b","ส่งข้อความที่ผู้ใช้พิมพ์ไปยัง Dialogflow เพื่อประมวลผลต่อ"],["c","คอยรับข้อความจากผู้ใช้ และ แสดงผลข้อความให้ผู้ใช้ได้อ่าน"],["d","ทำหน้าที่เป็น Mobile application ที่ปฏิสัมพันธ์กับผู้ใช้"]],a:"a"},
+      {n:169,q:"ในโครงงาน Robot Gardener บริการ Dialogflow มีหน้าที่รับ ___ และแปลงเป็น ___",c:[["a","ข้อความจากผู้ใช้ผ่านทาง LINE, Intent"],["b","ค่าที่อ่านจากเซนเซอร์, ข้อความที่แสดงกลับไปยังผู้ใช้ผ่านทาง LINE"],["c","Intent, HTTP Request"],["d","คำสั่ง, ข้อความภาษาธรรมชาติ"]],a:"a"},
+      {n:170,q:"ข้อความที่ Dialogflow สามารถเข้าใจได้ จะต้องมีการใส่ข้อความนั้นไว้ก่อนล่วงหน้าเท่านั้น",c:[["a","เป็นเท็จ Dialogflow สามารถตอบสนองต่อข้อความใด ๆ ได้โดยเรียนรู้ล่วงหน้าจากข้อความตัวอย่างอื่น ๆ (Training phrases)"],["b","เป็นจริง หาก Dialogflow ไม่เคยพบข้อความนั้นมาก่อนก็จะไม่ตอบสนอง"],["c","เป็นจริง เนื่องจาก Dialogflow ตอบสนองโดยการเทียบจากตารางจับคู่ข้อความขาเข้าและคำตอบที่เตรียมไว้"],["d","เป็นเท็จ เนื่องจาก Dialogflow สามารถสุ่มข้อความในคลังมาตอบ เมื่อไม่ได้มีการตั้งค่าข้อความนั้นมาก่อน และมีตัวแปร Parameters ไว้รองรับ"]],a:"a"},
+      {n:171,q:"ข้อใดเป็นประโยชน์ของ \"Actions and parameters\" ต่อการสร้าง Intent ใน Dialogflow",c:[["a","ทำให้ข้อความที่ระบุ Intent และ Training phrase ที่เกี่ยวข้องสามารถรองรับค่าตัวแปรได้"],["b","ทำให้สามารถกำหนด Fulfillment ให้กับ Intent ได้"],["c","ทำให้ Dialogflow สามารถตอบสนองต่อข้อความได้โดยไม่ต้องใช้ Training phrase"],["d","เป็นสิ่งที่กำหนด URL ที่ Dialogflow ต้องใช้เพื่อตอบสนองต่อ Intent"]],a:"a"},
+      {n:172,q:"เพื่อให้โปรแกรม Robot Gardener สามารถตอบสนองต่อ ____ ของ Dialogflow ได้ เราต้องติดตั้งไลบรารี ___ เพื่อให้โปรแกรมไพธอนเรียกใช้งาน และใช้โปรแกรม ___ เพื่อให้โปรแกรมบนเครื่องของเรามี ___ ที่คอยรอรับ request จาก Dialogflow",c:[["a","Fulfillment, Dialogflow, ngrok, Webhook URL"],["b","Webhook URL, ngrok, Flask, Fulfillment"],["c","Fulfillment, Flask, ngrok, Webhook URL"],["d","Webhook URL, Dialogflow, Fulfillment, grok"]],a:"c"},
+      {n:173,q:"ข้อใดมีความแตกต่างกันอย่างชัดเจนที่สุดระหว่างการท่องเว็บด้วยโปรแกรม web browser และการใช้แอปพลิเคชันไอโอที",c:[["a","อุปกรณ์ที่ปฏิสัมพันธ์กับผู้ใช้"],["b","มาตรฐานการสื่อสารข้อมูลผ่านเครือข่าย"],["c","ตัวเลือกของภาษาโปรแกรมที่ใช้พัฒนา"],["d","การเข้ารหัสข้อมูลเพื่อความปลอดภัยในการส่งข้อมูลผ่านเครือข่าย"]],a:"a"},
+      {n:174,q:"แอปพลิเคชันไอโอทีมักจะเน้นการใช้งานที่ไม่ต้องขับเคลื่อนโดยมนุษย์",c:[["a","เป็นจริง เพราะหากมีมนุษย์เข้าไปควบคุมจะไม่จัดว่าเป็นแอปพลิเคชันไอโอที"],["b","เป็นเท็จ เนื่องจากแอปพลิเคชันไอโอทีควรมีมนุษย์หมั่นคอยสอดส่องดูแลกระบวนการทำงานของอุปกรณ์ต่าง ๆ อยู่เสมอ"],["c","เป็นเท็จ ถึงแม้ว่าอุปกรณ์ไอโอทีจะสามารถติดต่อสื่อสารกันได้แต่ต้องอาศัยการเริ่มต้นการทำงานในแต่ละสถานการณ์ (scenario) ด้วยมนุษย์"],["d","เป็นจริง เพื่อให้ได้ประโยชน์จากการสื่อสารแลกเปลี่ยนข้อมูลและทำงานร่วมกันระหว่างเครื่อง (machine) ได้เต็มที่"]],a:"d"},
+      {n:175,q:"ข้อใดกล่าว ไม่ถูกต้อง เกี่ยวกับอุปกรณ์ไอโอที",c:[["a","อุปกรณ์ไอโอทีจะต้องมีความสามารถในการประมวลผลแบบคอมพิวเตอร์"],["b","อุปกรณ์ไอโอทีควรมีความสามารถในการประมวลผลอย่างน้อยเทียบเท่ากับสมาร์ตโฟน"],["c","อุปกรณ์ไอโอทีจะต้องมีความสามารถในการรับส่งข้อมูล"],["d","อุปกรณ์ไอโอทีสามารถมีรูปร่างหน้าตาเหมือนกับสิ่งของที่ผู้คนคุ้นเคยในชีวิตประจำวัน"]],a:"b"},
+      {n:176,q:"ข้อใดไม่มีความสามารถของเซนเซอร์",c:[["a","หน้าจอทัชสกรีน"],["b","กล้องบนสมาร์ตโฟน"],["c","หลอดไฟ LED"],["d","เรดาร์ (radar)"]],a:"c"},
+      {n:177,q:"ข้อใดเป็นบทบาทของ Actuator",c:[["a","ทำความเข้าใจข้อมูลที่อุปกรณ์ไอโอทีรับมาจากเครือข่ายอินเทอร์เน็ต"],["b","ตรวจจับรับปริมาณทางกายภาพมาเป็นสัญญาณอินพุตของโปรแกรม"],["c","แปลงการเคลื่อนที่เคลื่อนไหวทางกายภาพเป็นสัญญาณดิจิทัล"],["d","เปลี่ยนคำสั่งหรือสัญญาณควบคุมเป็นการเคลื่อนไหวของเครื่องกล"]],a:"d"},
+      {n:178,q:"เพราะเหตุใดอุปกรณ์ไอโอทีต่างชนิดกันจึงสามารถรับส่งข้อมูลกันได้",c:[["a","เพราะอุปกรณ์ไอโอทีใช้เซนเซอร์และ actuator"],["b","เพราะแต่ละอุปกรณ์สามารถเชื่อมต่อกับเครือข่ายอินเทอร์เน็ต"],["c","เพราะแต่ละอุปกรณ์สื่อสารด้วย protocol ที่เข้าใจร่วมกัน"],["d","เพราะอุปกรณ์ไอโอทีในโลกถูกผลิตมาจากผู้ผลิตรายใหญ่รายเดียวกัน"]],a:"c"},
+      {n:179,q:"ความต้องการใดเหมาะสมสำหรับการพัฒนาแอปพลิเคชันไอโอทีขึ้นมาสนับสนุน",c:[["a","สำนักการศึกษาต้องการควบคุมการติดตั้งโปรแกรมในเครื่องคอมพิวเตอร์แท็บเล็ตที่แจกให้นักเรียนของโรงเรียนสังกัดกว่า 400 แห่งใช้งานได้จากส่วนกลาง"],["b","กระทรวงสาธารณสุขต้องการระบบสารสนเทศที่โรงพยาบาลทั่วประเทศสามารถแลกเปลี่ยนข้อมูลคนไข้กันได้อย่างปลอดภัยและคุ้มครองข้อมูลส่วนบุคคลได้เป็นอย่างดี"],["c","กระทรวงการคลังต้องการสร้างระบบบันทึกธุรกรรมทางการเงินที่ไม่มีผู้ใดสามารถบิดเบือนหรือปกปิดข้อมูลธุรกรรมในอดีตในระบบได้"],["d","สำนักระบายน้ำต้องการเห็นแผนที่น้ำท่วมขังบนถนนสายต่าง ๆ จากข้อมูลเซนเซอร์วัดระดับน้ำท่วมขังบนพื้นถนนที่กระจายอยู่ทั่วทั้ง กทม."]],a:"d"},
+      {n:180,q:"ข้อใด ไม่เหมาะสม สำหรับนำมาใช้ผลิตต้นแบบอุปกรณ์ไอโอทีเพื่อพิสูจน์แนวคิด",c:[["a","แผงวงจรสั่งทำเฉพาะจากโรงงาน"],["b","single-board computer"],["c","Node MCU"],["d","ฮาร์ดแวร์ที่สามารถหาซื้อได้ง่าย"]],a:"a"},
+      {n:181,q:"ในการพัฒนาต้นแบบอุปกรณ์ไอโอที บางครั้งจะไม่ได้มีพื้นที่ภายในอุปกรณ์มากนัก หากเราสนใจเรื่องการไม่กินพื้นที่ ตัวเลือกฮาร์ดแวร์ในการประมวลผลใดเหมาะสมที่สุด",c:[["a","Node MCU"],["b","Arduino UNO"],["c","Raspberry Pi"],["d","iPad Air"]],a:"a"},
+      {n:182,q:"หากแอปพลิเคชันไอโอทีของเรามีความต้องการในการจัดการไฟล์ในรูปแบบเดียวกับบนเครื่องแล็ปท็อป ตัวเลือกฮาร์ดแวร์ในการประมวลผลใดเหมาะสมที่สุด",c:[["a","Node MCU"],["b","Raspberry Pi"],["c","Arduino UNO"],["d","Sensors / actuators"]],a:"b"},
+      {n:183,q:"ในข้อใดมีอุปกรณ์ที่ ไม่อยู่ บน Raspberry Pi 3",c:[["a","พอร์ต USB 2.0, พอร์ต Ethernet, ช่องสัญญาณภาพแบบ VGA"],["b","SoC, พอร์ตต่อกล้องแบบ CSI, พอร์ต Micro USB"],["c","ช่องสัญญาณขาออกแบบ HDMI, ช่องเสียบเพื่อสื่อสารกับ GPIO, ช่องเสียบการ์ด Micro SD"],["d","พอร์ตต่อกล้องแบบ CSI, ชิป Wireless LAN, ช่องสัญญาณเสียงขาออกแบบ Analog"]],a:"a"},
+      {n:184,q:"ข้อใด ไม่ใช่ หน้าที่ของ Operating System (OS) โดยทั่ว ๆ ไป",c:[["a","จัดเตรียมส่วนติดต่อผู้ใช้เพื่อให้ควบคุมเครื่องได้สะดวกไม่ว่าจะเป็นแบบ CLI หรือ GUI"],["b","ควบคุมการเข้าถึงหน่วยความจำของโปรแกรมต่าง ๆ เพื่อความปลอดภัยในการเข้าถึงข้อมูล"],["c","แบ่งทรัพยากรของเครื่องให้หลาย ๆ โปรแกรมทำงานได้พร้อม ๆ กัน"],["d","ออกแบบโครงสร้างรวมทั้งกำหนดชื่อของโฟลเดอร์ต่าง ๆ ที่ใช้จัดเก็บไฟล์ในโครงงานการพัฒนาโปรแกรม"]],a:"d"},
+      {n:185,q:"ข้อใดกล่าว ไม่ถูกต้อง เกี่ยวกับ GPIO ของ Raspberry Pi",c:[["a","พิน GPIO สามารถส่งสัญญาณไปยังอุปกรณ์อื่นนอกบอร์ด Raspberry Pi"],["b","พิน GPIO สามารถใช้รับอินพุทเข้ามาประมวลผล"],["c","เราสามารถใช้โปรแกรมควบคุมค่าโวลต์ที่พิน GPIO ให้เป็นค่าใด ๆ ก็ได้ที่อยู่ในช่วง 0 - 5 โวลต์"],["d","เราสามารถใช้โปรแกรมตั้งค่าการทำงานของพิน GPIO ได้"]],a:"c"},
+      {n:186,q:"การอ้างอิงพิน GPIO บนบอร์ด Raspberry Pi ทำได้กี่แบบ คืออะไรบ้าง",c:[["a","3 แบบ คือ แบบ Software แบบ Board และแบบ BCM"],["b","2 แบบ คือ แบบ Board และแบบ BCM"],["c","2 แบบ คือ แบบ Raspberry Pi และแบบ Arduino"],["d","3 แบบ คือ แบบ Raspberry Pi แบบ NodeMCU และแบบ Arduino"]],a:"b"},
+      {n:187,q:"สถานการณ์ใดต่อไปนี้ มีความต้องการในการใช้ Relay มากที่สุด",c:[["a","การใช้โปรแกรมที่รันบน NodeMCU เพื่อควบคุมอุปกรณ์ภายนอกที่ขับด้วยแรงดันไฟฟ้า 220 โวลท์"],["b","การใช้โปรแกรมที่รันบน Raspberry Pi เพื่อควบคุมอุปกรณ์ภายนอกที่ขับด้วยแรงดันไฟฟ้า 3.3 โวลท์"],["c","การต่อวงจรสวิทช์เปิดปิดไฟฟ้าแสงสว่างภายในบ้านที่ไม่ต้องการการประมวลผลแบบคอมพิวเตอร์"],["d","การใช้โปรแกรมที่รันบน Raspberry Pi เพื่อส่งสัญญาณควบคุมผ่านเครือข่ายอินเทอร์เน็ตไปยังอุปกรณ์ที่ขับด้วยแรงดันไฟฟ้า 220 โวลท์"]],a:"a"},
+      {n:188,q:"บนบอร์ด Raspberry Pi ไม่มีพินที่สามารถอ่านค่าแบบ analog ได้ หากเราต้องการอ่านค่าจาก sensor ที่มีการคืนค่าเป็นแบบ analog ข้อใดเหมาะสม",c:[["a","เราไม่สามารถต่อสัญญาณ analog เข้า GPIO ได้โดยตรง แต่จะใช้ชิป ADC เช่น MCP3008 มาทำการแปลงค่าเป็น digital ก่อนที่จะส่งไปยัง GPIO"],["b","ต่อสัญญาณ analog เข้า GPIO เช่นเดียวกับสัญญาณ digital แต่ใช้โปรแกรมไพธอนประมวลผลค่าที่อ่านได้ให้เป็นค่าที่แท้จริงในภายหลัง"],["c","ต่อสัญญาณ analog เข้า GPIO เช่นเดียวกับสัญญาณ digital แต่ต้องทำงานควบคู่กับการเปิดความสามารถ Hardware SPI บนบอร์ด Raspberry Pi"],["d","เราไม่สามารถใช้ Raspberry Pi เป็นตัวประมวลผลได้หาก sensor คืนค่าแบบ analog นั่นคือในโครงงาน sensor ที่เลือกใช้จะต้องเป็น sensor ที่คืนค่าแบบ digital เท่านั้น"]],a:"a"},
+      {n:189,q:"ข้อใดกล่าว ไม่ถูกต้อง เกี่ยวกับ Pi Camera",c:[["a","เราสามารถเขียนโปรแกรมไพธอนให้แสดงภาพที่ Pi Camera รับได้แบบ real-time"],["b","Pi Camera สามารถบันทึกได้ทั้งวีดิโอและภาพนิ่ง"],["c","ไลบรารี picamera ในภาษาไพธอนรองรับการบันทึกไฟล์วีดิโอหลายรูปแบบ เช่น H.264"],["d","Pi Camera ส่งภาพวีดิโอที่ capture ได้มายังบอร์ด Raspberry Pi ผ่าน HDMI"]],a:"d"},
+      {n:190,q:"กำหนดให้ในโฟลเดอร์หนึ่ง มีไฟล์ไพธอนที่เตรียมพร้อมไว้สำหรับรันเป็น web server ด้วย flask ไว้อยู่ 2 ไฟล์ ไฟล์หนึ่งชื่อ server1.py และอีกไฟล์ชื่อ server2.py เราต้องการรัน web server ทั้งสองเพื่อรอรับ Request จากอินเทอร์เน็ต โดยให้ web server ที่สอดคล้องกับ server1.py รอรับที่ port หมายเลข 5000 ขณะที่อีก web server หนึ่งรอรับที่ port หมายเลข 5555 เราสามารถทำได้หรือไม่ อย่างไร",c:[["a","ทำได้ โดยการตั้งค่า environment variable ชื่อ FLASK_APP ให้เป็นชื่อไฟล์ web server ที่ต้องการ และสั่ง flask run โดยกำหนด --port เป็นหมายเลข port ที่ต้องการ ทำเช่นนี้กับทั้งสองไฟล์ที่อยู่ในโฟลเดอร์เดียวกัน"],["b","ทำได้ โดยการตั้งค่า environment variable ชื่อ FLASK_APP ให้เป็นชื่อไฟล์ web server ที่ต้องการ และกำหนดหมายเลข port ที่ต้องการในไฟล์ .py แต่ละไฟล์ และสุดท้ายให้ใช้ python3 รันโปรแกรมทั้งสองจาก CLI"],["c","ไม่สามารถทำได้ เพราะถึงแม้ว่าในเครื่องหนึ่งเครื่องเราจะรัน web server ที่รอรับ request จากอินเทอร์เน็ตที่ port หมายเลขต่าง ๆ กันได้ แต่ flask กำหนดให้แต่ละโปรแกรมต้องพัฒนาโค้ดให้อยู่ต่างโฟลเดอร์กัน"],["d","ไม่สามารถทำได้ ในเครื่องหนึ่งเครื่องเราสามารถรันโปรแกรม web server เพื่อรอรับ request จากอินเทอร์เน็ตได้เพียง port เดียว (และโดยโปรแกรมเดียว) เท่านั้น"]],a:"a"},
+      {n:191,q:"จากโปรแกรม index.py ข้อใดกล่าวถึงหน้าที่ @app.route() ได้เหมาะสมที่สุด",c:[["a","ควบคุมการบันทึกค่า setting ลงไปยังตัวแปรขณะที่โปรแกรมรันและไฟล์ setting.txt"],["b","ทำการตัดสินใจจากค่าความชื้นและแสงสว่างในปัจจุบันว่าต้องดำเนินการเปิดหรือปิดอุปกรณ์ใดหรือไม่"],["c","เปรียบเทียบ intent ที่รับมาจาก request จาก Dialogflow เพื่อเรียกฟังก์ชันที่สอดคล้องกับ intent นั้น"],["d","กำหนดฟังก์ชันที่จะใช้ประมวลผล request ที่ได้รับจาก URL ที่กำหนด"]],a:"d"},
+      {n:192,q:"จากแผนภาพนามธรรมที่แสดง software ต่าง ๆ ของ Robot Gardener ในภาพด้านล่างนี้ ข้อใดกล่าว ไม่ถูกต้อง",img:"img4",c:[["a","โปรแกรม D รันในลักษณะของ web server ภายในที่ไม่ได้รับ request จากเครือข่ายอินเทอร์เน็ต แต่คอยรอรับ request จากโปรแกรม A ทั้งนี้การสื่อสารระหว่าง A กับ D ก็อยู่ใน protocol ที่ใช้เป็นมาตรฐานของอินเทอร์เน็ตเช่นกัน"],["b","โปรแกรม A เป็นโปรแกรมที่ทำให้อุปกรณ์ Robot Gardener มีสมบัติของอุปกรณ์ไอโอทีที่ต้องสามารถรับส่งข้อมูลผ่านอินเทอร์เน็ตได้ด้วย Protocol มาตรฐาน"],["c","สมบัติสำคัญสมบัติหนึ่งที่ทำให้อุปกรณ์ Robot Gardener นี้เป็นอุปกรณ์ไอโอทีเนื่องจากมีความสามารถในการประมวลผลแบบคอมพิวเตอร์ ซึ่งเกิดขึ้นจากโปรแกรม A เท่านั้น"],["d","โปรแกรม B และโปรแกรม C ส่ง request ไปยังโปรแกรม A ที่หมายเลข port เดียวกัน แต่ด้วยคนละวัตถุประสงค์ และโปรแกรม A สามารถแยกแยะวัตถุประสงค์เหล่านั้นด้วย URL ที่แตกต่างกัน"]],a:"c"},
+      {n:193,q:"ข้อใดที่โปรแกรม crontab ไม่สามารถ รองรับได้",c:[["a","ตั้งค่าให้ Raspberry Pi ลบไฟล์ในโฟลเดอร์ชื่อ temp (ซึ่งไม่มีไฟล์ที่ระบบปฏิบัติการใช้ในการบูตเครื่อง) ทั้งหมดในทุก ๆ ครั้งที่รีบูต"],["b","เรียกใช้โปรแกรมในภาษา PHP เพื่อนับจำนวนไฟล์ข้อมูลของผู้ใช้แต่ละรายและบันทึกรายงานไว้ ณ ทุก ๆ วันจันทร์"],["c","ในบรรดาตัวเลือกในข้อนี้สามารถรองรับได้ด้วย crontab ทั้งสิ้น"],["d","รันโปรแกรมไพธอนเพื่อส่งข้อมูลขนาดเล็ก ๆ ไปยัง URL บนอินเทอร์เน็ตทุก ๆ 5 นาที"]],a:"c"},
+      {n:194,q:"หากเราต้องการทำการวิจัยเรื่องผลของแสงสว่างต่อการเจริญเติบโตของต้นไม้ที่เราปลูกใน Robot Gardener การปรับปรุง Robot Gardener ในข้อใดที่มีความเกี่ยวข้องกับเป้าหมายนี้ น้อยที่สุด",c:[["a","ออกแบบและดัดแปลงอุปกรณ์ที่นำมาต่อวงจรกับ Raspberry Pi ให้สามารถใช้ Raspberry Pi เพียงเครื่องเดียวในการควบคุมตัวแปรด้านความชื้นในดินและแสงสว่างรวมถึงการวัดผลและบันทึกผลต้นไม้หลาย ๆ ต้นได้ในคราวเดียว"],["b","คิดหา sensor ที่วัดค่าปริมาณทางกายภาพออกมาเป็นตัวเลขที่สามารถเป็นตัวแทนการเจริญเติบโตของต้นไม้ได้ เพื่อให้วัดความเจริญเติบโตควบคู่ไปกับการวิเคราะห์ภาพที่ถ่ายจาก Pi Camera"],["c","ปรับปรุงโปรแกรมให้บันทึกข้อมูลตัวแปรต่าง ๆ อย่างละเอียดลงในการ์ด MicroSD พร้อมทั้งพัฒนาโปรแกรมเพิ่มเติมเพื่อส่งข้อมูลที่บันทึกไว้ไปยังเครื่องแม่ข่ายบนคลาวด์ ตามระยะเวลาที่เหมาะสม"],["d","เขียนโปรแกรมที่ตั้งค่าเกณฑ์ความชื้นในดินที่เหมาะสมกับปริมาณแสงต่าง ๆ และควบคุมการรดน้ำด้วยปั๊มโดยอัตโนมัติเพื่อให้ดินมีความชื้นที่พอเหมาะกับปริมาณแสง ณ ขณะใด ๆ เสมอ"]],a:"d"},
+      {n:195,q:"ข้อใดกล่าวได้อย่างเหมาะสมที่สุดเกี่ยวกับศักยภาพของไอโอทีที่มีผลต่อปัญญาประดิษฐ์ (Artificial Intelligence) ในบริบทของยุคปัจจุบัน",c:[["a","หน่วยประมวลผลในอุปกรณ์ไอโอทีถึงแม้ว่าจะมีพลังในการประมวลผลไม่มากแต่มักเป็น hardware ที่ถูกออกแบบมาให้มีความเหมาะสมกับการฝึกฝนแบบจำลองปัญญาประดิษฐ์"],["b","แม้ว่าเทคโนโลยีไอโอทีและเทคโนโลยีปัญญาประดิษฐ์อาจมีการประยุกต์ใช้เพื่ออำนวยความสะดวกในการดำรงชีวิตของผู้คนร่วมกัน แต่เทคโนโลยีทั้งสองไม่มีความเกี่ยวพันกันในแง่ของพัฒนาการ"],["c","จำนวนและความสามารถในการตรวจจับค่าต่าง ๆ ที่เพิ่มขึ้นของอุปกรณ์ไอโอทีส่งผลให้การฝึกฝนแบบจำลองปัญญาประดิษฐ์ได้รับปริมาณข้อมูลจำนวนมหาศาลได้สะดวก"],["d","ความสามารถในการแปลงคำสั่งจากโลกดิจิทัลมาเป็นการเคลื่อนที่เคลื่อนไหวในโลกแห่งความเป็นจริงผ่าน actuator เป็นช่องทางที่สำคัญที่สุดในการประยุกต์ใช้ปัญญาประดิษฐ์ในวงการอุตสาหกรรม"]],a:"c"},
+      {n:196,q:"หากจะเปลี่ยนการรันโปรแกรมไพธอนที่ทำในคอร์สนี้จากเครื่องคอมพิวเตอร์เป็นการรันบน Raspberry Pi เพื่อให้ Robot Gardener ทำงานได้ครบถ้วน เรา ไม่จำเป็น ต้องทำขั้นตอนใด",c:[["a","ตั้งค่า Training phrase ใหม่ใน Dialogflow"],["b","ต่อวงจรเชื่อม Raspberry Pi เข้ากับ sensor และ actuator ที่ต้องใช้"],["c","นำโปรแกรมไพธอนไปรันบน Raspberry Pi"],["d","ตั้งค่า Raspberry Pi เพื่อเชื่อมต่อกับอินเทอร์เน็ต"]],a:"a"}
+    ];
+
+    const DATASETS = {
+      part1: {
+        id: "part1",
+        title: "ชุดที่ 1: PDPA & Cybersecurity",
+        questions: PART1_QUESTIONS
+      },
+      part2: {
+        id: "part2",
+        title: "ชุดที่ 2: คอมพิวเตอร์ เครือข่าย IoT Design Thinking & Python",
+        questions: PART2_QUESTIONS
+      }
+    };
+
+    const LETTERS = ["a", "b", "c", "d", "e"];
+
+    function shuffleArray(arr) {
+      const copy = arr.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const tmp = copy[i];
+        copy[i] = copy[j];
+        copy[j] = tmp;
+      }
+      return copy;
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function buildChoicesForCard(question, shouldShuffle) {
+      const base = question.c.map(([origKey, text]) => ({ origKey, rawText: text }));
+      const ordered = shouldShuffle ? shuffleArray(base) : base;
+
+      // Map original key -> current display letter ('a', 'b', 'c', ...)
+      const dispMap = {};
+      ordered.forEach((item, idx) => {
+        item.dispLetter = LETTERS[idx];
+        dispMap[item.origKey] = LETTERS[idx];
+      });
+
+      // Dynamically keep cross-referenced choices accurate when Choice Shuffling is ON
+      ordered.forEach((item) => {
+        let txt = item.rawText;
+        if (question.refAB && (item.origKey === "c" || item.origKey === "d")) {
+          if (txt.startsWith("ถูกทั้ง")) {
+            txt = `ถูกทั้งข้อ ${dispMap["a"]}. และ ${dispMap["b"]}.`;
+          } else if (txt.startsWith("ผิดทั้ง")) {
+            txt = `ผิดทั้งข้อ ${dispMap["a"]}. และ ${dispMap["b"]}.`;
+          }
+        } else if (question.refPair && item.origKey === "d") {
+          const [k1, k2, tpl] = question.refPair;
+          txt = tpl.replace("{0}", dispMap[k1] + ".").replace("{1}", dispMap[k2] + ".");
+        }
+        item.displayText = txt;
+      });
+
+      return ordered;
+    }
+
+    function createPartSession(partKey, prevOptions) {
+      const ds = DATASETS[partKey];
+      const options = prevOptions ? { ...prevOptions } : {
+        shuffleQuestions: false,
+        shuffleChoices: false,
+        requeueWrong: true
+      };
+
+      const initialIndices = ds.questions.map((_, idx) => ({
+        qIdx: idx,
+        isRetry: false
+      }));
+
+      const queue = options.shuffleQuestions ? shuffleArray(initialIndices) : initialIndices;
+
+      const session = {
+        partKey,
+        options,
+        queue,
+        currentCard: null,
+        completedCount: 0,
+        firstTryCorrect: 0,
+        attemptedOriginalSet: new Set(),
+        totalSubmissions: 0,
+        finished: false
+      };
+
+      advanceCard(session);
+      return session;
+    }
+
+    function advanceCard(session) {
+      if (session.queue.length === 0) {
+        session.currentCard = null;
+        session.finished = true;
+        return;
+      }
+      const nextEntry = session.queue.shift();
+      const qObj = DATASETS[session.partKey].questions[nextEntry.qIdx];
+      session.currentCard = {
+        qIdx: nextEntry.qIdx,
+        question: qObj,
+        isRetry: nextEntry.isRetry,
+        choices: buildChoicesForCard(qObj, session.options.shuffleChoices),
+        answered: false,
+        selectedOrigKey: null,
+        wasRequeued: false
+      };
+      session.finished = false;
+    }
+
+    // Independent state per Part
+    const sessions = {
+      part1: createPartSession("part1"),
+      part2: createPartSession("part2")
+    };
+
+    let activePart = "part1";
+
+    function syncHeaderTabs() {
+      ["part1", "part2"].forEach((pk) => {
+        const s = sessions[pk];
+        const total = DATASETS[pk].questions.length;
+        const tab = document.getElementById(`tab-${pk}`);
+        const statusEl = document.getElementById(`tab-status-${pk}`);
+        tab.classList.toggle("active", pk === activePart);
+        tab.setAttribute("aria-selected", pk === activePart ? "true" : "false");
+        statusEl.textContent = s.finished
+          ? `ทำครบแล้ว ${total} / ${total} ข้อ`
+          : `ผ่านแล้ว ${s.completedCount} / ${total} ข้อ`;
+      });
+
+      const curOpts = sessions[activePart].options;
+      document.getElementById("opt-shuffle-q").checked = curOpts.shuffleQuestions;
+      document.getElementById("opt-shuffle-c").checked = curOpts.shuffleChoices;
+      document.getElementById("opt-requeue-wrong").checked = curOpts.requeueWrong;
+    }
+
+    function renderStage() {
+      syncHeaderTabs();
+      const stage = document.getElementById("exam-stage");
+      const session = sessions[activePart];
+      const ds = DATASETS[activePart];
+      const totalOriginal = ds.questions.length;
+
+      if (session.finished || !session.currentCard) {
+        const pct = totalOriginal > 0 ? Math.round((session.firstTryCorrect / totalOriginal) * 100) : 0;
+        stage.innerHTML = `
+          <div class="complete-box">
+            <div class="complete-icon" aria-hidden="true">✓</div>
+            <h2 class="complete-title">ทำข้อสอบครบทุกข้อใน ${escapeHtml(ds.title)} แล้ว</h2>
+            <div class="complete-stats">
+              <div class="stat-pill">
+                <div class="stat-pill-val">${totalOriginal} ข้อ</div>
+                <div class="stat-pill-lbl">จำนวนข้อสอบทั้งหมด</div>
+              </div>
+              <div class="stat-pill">
+                <div class="stat-pill-val">${session.firstTryCorrect} / ${totalOriginal} (${pct}%)</div>
+                <div class="stat-pill-lbl">ตอบถูกตั้งแต่ครั้งแรก</div>
+              </div>
+              <div class="stat-pill">
+                <div class="stat-pill-val">${session.totalSubmissions} ครั้ง</div>
+                <div class="stat-pill-lbl">จำนวนครั้งที่ส่งคำตอบรวม</div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary" id="btn-complete-restart">
+              เริ่มทำ Part นี้ใหม่อีกครั้ง
+            </button>
+          </div>
+        `;
+        document.getElementById("btn-complete-restart").addEventListener("click", () => {
+          restartActivePart();
+        });
+        return;
+      }
+
+      const card = session.currentCard;
+      const q = card.question;
+      const remainingIncludingCurrent = session.queue.length + (card.answered ? 0 : 1);
+      const progressPct = Math.min(100, Math.round((session.completedCount / totalOriginal) * 100));
+
+      // Image lookup if question has diagram
+      let imgHtml = "";
+      if (q.img) {
+        const srcEl = document.getElementById(`src-${q.img}`);
+        if (srcEl && srcEl.getAttribute("src")) {
+          imgHtml = `
+            <div class="q-image-box">
+              <img src="${srcEl.getAttribute("src")}" alt="${escapeHtml(srcEl.getAttribute("alt") || "รูปประกอบข้อสอบ")}">
+            </div>
+          `;
+        }
+      }
+
+      const codeHtml = q.code
+        ? `<pre class="q-code-block"><code>${escapeHtml(q.code)}</code></pre>`
+        : "";
+
+      const choicesHtml = card.choices.map((ch) => {
+        let stateClass = "";
+        let badgeHtml = "";
+        if (card.answered) {
+          if (ch.origKey === q.a) {
+            stateClass = "is-correct";
+            badgeHtml = `<span class="choice-tag">เฉลยที่ถูกต้อง</span>`;
+          } else if (ch.origKey === card.selectedOrigKey) {
+            stateClass = "is-wrong";
+            badgeHtml = `<span class="choice-tag">คำตอบที่เลือก</span>`;
+          } else {
+            stateClass = "is-dimmed";
+          }
+        }
+        return `
+          <button type="button"
+                  class="choice-btn ${stateClass}"
+                  data-orig-key="${escapeHtml(ch.origKey)}"
+                  ${card.answered ? "disabled" : ""}>
+            <span class="choice-letter">${escapeHtml(ch.dispLetter)}</span>
+            <span class="choice-text">${escapeHtml(ch.displayText)}</span>
+            ${badgeHtml}
+          </button>
+        `;
+      }).join("");
+
+      let feedbackHtml = "";
+      if (card.answered) {
+        const isCorrect = card.selectedOrigKey === q.a;
+        const correctChoiceObj = card.choices.find((c) => c.origKey === q.a);
+        const correctLabel = correctChoiceObj
+          ? `${correctChoiceObj.dispLetter}. ${correctChoiceObj.displayText}`
+          : q.a;
+        const auditKey = `${activePart}-${q.n}`;
+        const auditObj = AUDIT_NOTES[auditKey];
+
+        const requeueHtml = (!isCorrect && card.wasRequeued)
+          ? `<div class="requeue-notice">นำข้อที่ ${q.n} กลับเข้าสู่คิวคำถามที่เหลือแบบสุ่มเรียบร้อยแล้ว</div>`
+          : "";
+
+        const auditHtml = auditObj
+          ? `
+            <div class="audit-inline-box">
+              <strong>${escapeHtml(auditObj.severityLabel)} (จากการเช็คเฉลย):</strong>
+              ${escapeHtml(auditObj.note)}
+            </div>
+          `
+          : "";
+
+        const nextBtnText = session.queue.length === 0 ? "ดูสรุปผลชุดนี้" : "ข้อถัดไป →";
+
+        feedbackHtml = `
+          <div class="feedback-panel ${isCorrect ? "ok" : "err"}">
+            <div class="feedback-header-row">
+              <div class="feedback-verdict">
+                ${isCorrect ? "✓ ตอบถูกต้อง!" : "✕ ตอบไม่ถูกต้อง"}
+              </div>
+              <button type="button" class="btn btn-primary" id="btn-next-question">
+                ${nextBtnText}
+              </button>
+            </div>
+            <p class="feedback-detail">
+              <strong>เฉลย:</strong> ข้อ ${escapeHtml(correctLabel)}
+              <span style="opacity:0.8;"> (ตรงกับตัวเลือก ${escapeHtml(q.a.toUpperCase())} ในไฟล์ต้นฉบับ)</span>
+            </p>
+            ${requeueHtml}
+            ${auditHtml}
+          </div>
+        `;
+      }
+
+      stage.innerHTML = `
+        <div class="exam-card-header">
+          <div class="q-meta-left">
+            <span class="q-num-chip">ข้อที่ ${q.n} (จาก ${totalOriginal})</span>
+            ${card.isRetry ? `<span class="retry-chip">ทบทวนข้อที่เคยตอบผิด</span>` : ""}
+          </div>
+          <div class="q-status-right">
+            ผ่านแล้ว ${session.completedCount}/${totalOriginal} ข้อ • คิวคงเหลือ ${remainingIncludingCurrent} ข้อ
+          </div>
+        </div>
+        <div class="progress-bar-wrap" aria-hidden="true">
+          <div class="progress-bar-fill" style="width: ${progressPct}%"></div>
+        </div>
+        <div class="exam-card-body">
+          <div>
+            <p class="q-stem">${escapeHtml(q.q)}</p>
+            ${codeHtml}
+          </div>
+          ${imgHtml}
+          <div class="choices-list" id="choices-container">
+            ${choicesHtml}
+          </div>
+          ${feedbackHtml}
+        </div>
+      `;
+
+      if (!card.answered) {
+        stage.querySelectorAll(".choice-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            handleSelectChoice(btn.getAttribute("data-orig-key"));
+          });
+        });
+      } else {
+        const nextBtn = document.getElementById("btn-next-question");
+        if (nextBtn) {
+          nextBtn.addEventListener("click", () => {
+            advanceCard(session);
+            renderStage();
+          });
+        }
+      }
+    }
+
+    function handleSelectChoice(selectedOrigKey) {
+      const session = sessions[activePart];
+      const card = session.currentCard;
+      if (!card || card.answered) return;
+
+      card.answered = true;
+      card.selectedOrigKey = selectedOrigKey;
+      session.totalSubmissions += 1;
+
+      const isFirstAttemptOnQuestion = !session.attemptedOriginalSet.has(card.qIdx);
+      session.attemptedOriginalSet.add(card.qIdx);
+
+      const isCorrect = selectedOrigKey === card.question.a;
+      if (isCorrect) {
+        if (isFirstAttemptOnQuestion) {
+          session.firstTryCorrect += 1;
+        }
+        session.completedCount += 1;
+      } else {
+        if (session.options.requeueWrong) {
+          // Insert randomly into the remaining questions queue
+          const retryEntry = { qIdx: card.qIdx, isRetry: true };
+          const qLen = session.queue.length;
+          if (qLen === 0) {
+            session.queue.push(retryEntry);
+          } else {
+            // Pick random position in 1..qLen so it doesn't repeat immediately if other questions remain
+            const insertAt = 1 + Math.floor(Math.random() * qLen);
+            session.queue.splice(insertAt, 0, retryEntry);
+          }
+          card.wasRequeued = true;
+        } else {
+          // Not re-queuing wrong answers: count as processed so the queue moves forward cleanly
+          session.completedCount += 1;
+        }
+      }
+
+      renderStage();
+    }
+
+    function restartActivePart() {
+      const curOpts = sessions[activePart].options;
+      sessions[activePart] = createPartSession(activePart, curOpts);
+      renderStage();
+    }
+
+    // Event bindings: Part tabs
+    document.querySelectorAll(".part-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const targetPart = tab.getAttribute("data-part");
+        if (targetPart && targetPart !== activePart) {
+          activePart = targetPart;
+          renderStage();
+        }
+      });
+    });
+
+    // Event bindings: Options per active Part
+    document.getElementById("opt-shuffle-q").addEventListener("change", (e) => {
+      const session = sessions[activePart];
+      session.options.shuffleQuestions = e.target.checked;
+      if (session.options.shuffleQuestions) {
+        session.queue = shuffleArray(session.queue);
+      } else {
+        session.queue.sort((x, y) => x.qIdx - y.qIdx);
+      }
+      // If user hasn't answered the very first question yet, also refresh current question order
+      if (session.totalSubmissions === 0 && session.currentCard && !session.currentCard.answered) {
+        sessions[activePart] = createPartSession(activePart, session.options);
+      }
+      renderStage();
+    });
+
+    document.getElementById("opt-shuffle-c").addEventListener("change", (e) => {
+      const session = sessions[activePart];
+      session.options.shuffleChoices = e.target.checked;
+      if (session.currentCard && !session.currentCard.answered) {
+        session.currentCard.choices = buildChoicesForCard(
+          session.currentCard.question,
+          session.options.shuffleChoices
+        );
+      }
+      renderStage();
+    });
+
+    document.getElementById("opt-requeue-wrong").addEventListener("change", (e) => {
+      sessions[activePart].options.requeueWrong = e.target.checked;
+    });
+
+    document.getElementById("btn-restart-part").addEventListener("click", () => {
+      restartActivePart();
+    });
+
+    // Keyboard shortcuts for smooth exam practice
+    document.addEventListener("keydown", (e) => {
+      const modal = document.getElementById("audit-modal");
+      if (!modal.hidden) {
+        if (e.key === "Escape") {
+          modal.hidden = true;
+        }
+        return;
+      }
+      if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) {
+        return;
+      }
+      const session = sessions[activePart];
+      const card = session.currentCard;
+      if (!card) return;
+
+      if (!card.answered) {
+        const keyLower = e.key.toLowerCase();
+        const numIdx = ["1", "2", "3", "4", "5"].indexOf(keyLower);
+        const letIdx = LETTERS.indexOf(keyLower);
+        const idx = numIdx !== -1 ? numIdx : letIdx;
+        if (idx !== -1 && idx < card.choices.length) {
+          e.preventDefault();
+          handleSelectChoice(card.choices[idx].origKey);
+        }
+      } else if (e.key === "Enter" || e.key === "ArrowRight" || e.key === " ") {
+        e.preventDefault();
+        advanceCard(session);
+        renderStage();
+      }
+    });
+
+    // Populate and wire Audit Report Modal
+    function populateAuditTable() {
+      const tbody = document.getElementById("audit-table-body");
+      tbody.innerHTML = Object.values(AUDIT_NOTES).map((item) => {
+        const cls = item.severity === "warn" ? "level-warn" : "level-note";
+        return `
+          <tr>
+            <td><strong>${escapeHtml(item.partLabel)}</strong></td>
+            <td><code>${escapeHtml(item.fileKey)}</code></td>
+            <td><span class="level-tag ${cls}">${escapeHtml(item.severityLabel)}</span></td>
+            <td>${escapeHtml(item.note)}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    const auditModal = document.getElementById("audit-modal");
+    document.getElementById("btn-open-audit").addEventListener("click", () => {
+      auditModal.hidden = false;
+    });
+    document.getElementById("btn-close-audit").addEventListener("click", () => {
+      auditModal.hidden = true;
+    });
+    auditModal.addEventListener("click", (e) => {
+      if (e.target === auditModal) {
+        auditModal.hidden = true;
+      }
+    });
+
+    populateAuditTable();
+    renderStage();
+  </script>
+</body>
+</html>
